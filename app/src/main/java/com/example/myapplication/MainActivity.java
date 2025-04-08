@@ -18,32 +18,42 @@ public class MainActivity extends AppCompatActivity {
     MediaPlayer player ;
 
     public void d0listener(View view) {
-        MediaPlayer player = MediaPlayer.create(MainActivity.this, R.raw.c3);
 
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        tocarSom();
+                        return true;
 
-                        if (!player.isPlaying()) {
-                            player.start();
-                        }
-                else if(event.getAction() == MotionEvent.ACTION_UP)
-
-                        if (player.isPlaying()) {
-                            player.stop();
-                            player.release();
-                        }
+                    case MotionEvent.ACTION_UP:
+                        pararSom();
+                        return true;
 
                 }
-                return true;
+                return false;
             }
         });
     }
 
-
-
+   private void tocarSom()
+   {
+    if(player== null)
+    {
+        player = MediaPlayer.create(this, R.raw.c33);
+        player.setLooping(true);
+    }
+    player.start();
+   }
+   private void pararSom()
+   {
+       if(player != null) {
+           player.pause();
+           player.seekTo(0);
+       }
+   }
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bdo = findViewById(R.id.c3);
