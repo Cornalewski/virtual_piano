@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/MI"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="60dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="26dp"
+        android:text="@string/MI"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Ré"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/RéM"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="60dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="26dp"
+        android:text="@string/RéM"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/doM" />
+
+    <Button
+        android:id="@+id/doM"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="60dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="26dp"
+        android:text="@string/DÓM"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/si" />
+
+    <Button
+        android:id="@+id/MiM"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="60dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/MIM"
+        app:cornerRadius="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/RéM"
+        tools:layout_editor_absoluteY="316dp" />
+
+    <Button
+        android:id="@+id/si"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="60dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="26dp"
+        android:text="@string/SI"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/la" />
+
+    <Button
+        android:id="@+id/sol"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="60dp"
+        android:layout_height="120dp"
+        android:layout_marginBottom="488dp"
+        android:text="@string/SOL"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="-17dp" />
+
+    <Button
+        android:id="@+id/la"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="60dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="304dp"
+        android:text="@string/LÁ"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/sol" />
+
+    <Button
+        android:id="@+id/fa"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="60dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="608dp"
+        android:text="@string/FÁ"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/MI" />
+
+    <Button
+        android:id="@+id/Ré"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="60dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="26dp"
+        android:text="@string/RÉ"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/MI"
+        app:layout_constraintStart_toEndOf="@+id/c3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/c3"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="60dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="26dp"
+        android:text="@string/DÓ"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
