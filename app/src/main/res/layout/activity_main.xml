@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/MI"
+        android:id="@+id/e4"
         style="@style/Widget.Material3.Button"
         android:layout_width="60dp"
         android:layout_height="120dp"
@@ -17,7 +17,7 @@
         android:text="@string/MI"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Ré"
+        app:layout_constraintStart_toEndOf="@+id/d4"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -43,7 +43,7 @@
         android:text="@string/DÓM"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/si" />
+        app:layout_constraintStart_toEndOf="@+id/b4" />
 
     <Button
         android:id="@+id/MiM"
@@ -59,7 +59,7 @@
         tools:layout_editor_absoluteY="316dp" />
 
     <Button
-        android:id="@+id/si"
+        android:id="@+id/b4"
         style="@style/Widget.Material3.Button"
         android:layout_width="60dp"
         android:layout_height="120dp"
@@ -68,10 +68,10 @@
         android:text="@string/SI"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/la" />
+        app:layout_constraintStart_toEndOf="@+id/a4" />
 
     <Button
-        android:id="@+id/sol"
+        android:id="@+id/g4"
         style="@style/Widget.Material3.Button"
         android:layout_width="60dp"
         android:layout_height="120dp"
@@ -82,7 +82,7 @@
         tools:layout_editor_absoluteX="-17dp" />
 
     <Button
-        android:id="@+id/la"
+        android:id="@+id/a4"
         style="@style/Widget.Material3.Button"
         android:layout_width="60dp"
         android:layout_height="120dp"
@@ -91,10 +91,10 @@
         android:text="@string/LÁ"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/sol" />
+        app:layout_constraintStart_toEndOf="@+id/g4" />
 
     <Button
-        android:id="@+id/fa"
+        android:id="@+id/f4"
         style="@style/Widget.Material3.Button"
         android:layout_width="60dp"
         android:layout_height="120dp"
@@ -103,10 +103,10 @@
         android:text="@string/FÁ"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/MI" />
+        app:layout_constraintStart_toEndOf="@+id/e4" />
 
     <Button
-        android:id="@+id/Ré"
+        android:id="@+id/d4"
         style="@style/Widget.Material3.Button"
         android:layout_width="60dp"
         android:layout_height="120dp"
@@ -116,13 +116,13 @@
         android:text="@string/RÉ"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/MI"
-        app:layout_constraintStart_toEndOf="@+id/c3"
+        app:layout_constraintEnd_toStartOf="@+id/e4"
+        app:layout_constraintStart_toEndOf="@+id/c4"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/c3"
+        android:id="@+id/c4"
         style="@style/Widget.Material3.Button"
         android:layout_width="60dp"
         android:layout_height="120dp"
