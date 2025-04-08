@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     public void d0listener(View view) {
 
         view.setOnTouchListener(new View.OnTouchListener() {
-            @Override
+
             public boolean onTouch(View v, MotionEvent event) {
 
                 switch (event.getAction()) {
