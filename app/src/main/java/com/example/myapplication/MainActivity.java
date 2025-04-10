@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     public void dSom(View view) {
         int som = 0;
 
-
         if(view.getId() == R.id.c4){
             som = R.raw.c4;
         }
@@ -40,11 +39,11 @@ public class MainActivity extends AppCompatActivity {
     }
     public void tocarSom(int som)
     {
-        if (player.isPlaying()) {
-            player.stop();
+        if(player != null) {
+            player.release();
+            player = null;
         }
-        player.reset();
-
+        player = new MediaPlayer();
         try {
             AssetFileDescriptor afd = getResources().openRawResourceFd(som);
             if (afd != null) {
@@ -53,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
                 player.prepare();
                 player.start();
             }
+            player.setOnCompletionListener(mp -> {
+                mp.release();
+                player = null;
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
