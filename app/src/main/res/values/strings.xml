@@ -7,8 +7,14 @@
     <string name="SOL">SOL</string>
     <string name="LÁ">LÁ</string>
     <string name="SI">SI</string>
-    <string name="DÓM">DÓM</string>
-    <string name="RéM">RéM</string>
-    <string name="MIM">MIM</string>">
+    <string name="DÓM">DÓ ↑</string>
+    <string name="RéM">Ré ↑</string>
+    <string name="DÓSHARP">DÓ#</string>
+    <string name="RÉSHARP">RÉ#</string>
+    <string name="fásharp">FÁ#</string>
+    <string name="SOLSHARP">SOL#</string>
+    <string name="LÁSHARP">LÁ#</string>
+    <string name="MIM">Mi ↑</string>">
+
 
 </resources>

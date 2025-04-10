@@ -8,8 +8,99 @@
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
+
     <Button
-        android:id="@+id/MiM"
+        android:id="@+id/d5sharp"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="48dp"
+        android:layout_height="82dp"
+        android:layout_marginStart="-20dp"
+        android:layout_marginBottom="55dp"
+        android:background="#020101"
+        android:backgroundTint="#000000"
+        android:elevation="10dp"
+        android:text="@string/RÉSHARP"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/d5" />
+
+    <Button
+        android:id="@+id/c5sharp"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="48dp"
+        android:layout_height="82dp"
+        android:layout_marginStart="-20dp"
+        android:layout_marginBottom="55dp"
+        android:background="#020101"
+        android:backgroundTint="#000000"
+        android:elevation="10dp"
+        android:text="@string/DÓSHARP"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/c5" />
+
+    <Button
+        android:id="@+id/a4sharp"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="48dp"
+        android:layout_height="82dp"
+        android:layout_marginStart="-20dp"
+        android:layout_marginBottom="55dp"
+        android:background="#020101"
+        android:backgroundTint="#000000"
+        android:elevation="10dp"
+        android:text="@string/LÁSHARP"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/a4" />
+
+    <Button
+        android:id="@+id/g4sharp"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="48dp"
+        android:layout_height="82dp"
+        android:layout_marginStart="-20dp"
+        android:layout_marginBottom="55dp"
+        android:background="#020101"
+        android:backgroundTint="#000000"
+        android:elevation="10dp"
+        android:text="@string/SOLSHARP"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/g4" />
+
+    <Button
+        android:id="@+id/f4sharp"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="48dp"
+        android:layout_height="82dp"
+        android:layout_marginStart="-20dp"
+        android:layout_marginBottom="55dp"
+        android:background="#020101"
+        android:backgroundTint="#000000"
+        android:elevation="10dp"
+        android:text="@string/fásharp"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/f4" />
+
+    <Button
+        android:id="@+id/d4sharp"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="48dp"
+        android:layout_height="82dp"
+        android:layout_marginStart="-20dp"
+        android:layout_marginBottom="55dp"
+        android:background="#020101"
+        android:backgroundTint="#000000"
+        android:elevation="10dp"
+        android:text="@string/RÉSHARP"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/d4" />
+
+    <Button
+        android:id="@+id/e5"
         style="@style/Widget.Material3.Button"
         android:layout_width="64dp"
         android:layout_height="120dp"
@@ -20,7 +111,7 @@
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/RéM" />
+        app:layout_constraintStart_toEndOf="@+id/d5" />
 
     <Button
         android:id="@+id/d4"
@@ -29,7 +120,6 @@
         android:layout_height="120dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
-        android:onClick="dSom"
         android:text="@string/RÉ"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -37,7 +127,7 @@
         app:layout_constraintStart_toEndOf="@+id/c4" />
 
     <Button
-        android:id="@+id/RéM"
+        android:id="@+id/d5"
         style="@style/Widget.Material3.Button"
         android:layout_width="64dp"
         android:layout_height="120dp"
@@ -46,8 +136,8 @@
         android:text="@string/RéM"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/MiM"
-        app:layout_constraintStart_toEndOf="@+id/doM" />
+        app:layout_constraintEnd_toStartOf="@+id/e5"
+        app:layout_constraintStart_toEndOf="@+id/c5" />
 
     <Button
         android:id="@+id/b4"
@@ -59,7 +149,7 @@
         android:text="@string/SI"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/doM"
+        app:layout_constraintEnd_toStartOf="@+id/c5"
         app:layout_constraintStart_toEndOf="@+id/a4" />
 
     <Button
@@ -83,7 +173,6 @@
         android:layout_height="120dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:onClick="dSom"
         android:text="@string/MI"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -91,7 +180,7 @@
         app:layout_constraintStart_toEndOf="@+id/d4" />
 
     <Button
-        android:id="@+id/doM"
+        android:id="@+id/c5"
         style="@style/Widget.Material3.Button"
         android:layout_width="64dp"
         android:layout_height="120dp"
@@ -100,7 +189,7 @@
         android:text="@string/DÓM"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/RéM"
+        app:layout_constraintEnd_toStartOf="@+id/d5"
         app:layout_constraintStart_toEndOf="@+id/b4" />
 
     <Button
@@ -123,7 +212,6 @@
         android:layout_height="120dp"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="16dp"
-        android:onClick="dSom"
         android:text="@string/FÁ"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -137,13 +225,26 @@
         android:layout_height="120dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:onClick="dSom"
+        android:layout_marginBottom="16dp"
         android:text="@string/DÓ"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/d4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.945" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/c4sharp"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="48dp"
+        android:layout_height="82dp"
+        android:layout_marginStart="-20dp"
+        android:layout_marginBottom="55dp"
+        android:background="#020101"
+        android:backgroundTint="#000000"
+        android:elevation="10dp"
+        android:text="@string/DÓSHARP"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/c4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

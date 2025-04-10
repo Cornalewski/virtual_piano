@@ -22,7 +22,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/RéM"
+        android:id="@+id/d5"
         style="@style/Widget.Material3.Button"
         android:layout_width="60dp"
         android:layout_height="120dp"
@@ -31,10 +31,10 @@
         android:text="@string/RéM"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/doM" />
+        app:layout_constraintStart_toEndOf="@+id/c5" />
 
     <Button
-        android:id="@+id/doM"
+        android:id="@+id/c5"
         style="@style/Widget.Material3.Button"
         android:layout_width="60dp"
         android:layout_height="120dp"
@@ -46,7 +46,7 @@
         app:layout_constraintStart_toEndOf="@+id/b4" />
 
     <Button
-        android:id="@+id/MiM"
+        android:id="@+id/e5"
         style="@style/Widget.Material3.Button"
         android:layout_width="60dp"
         android:layout_height="120dp"
@@ -55,7 +55,7 @@
         android:text="@string/MIM"
         app:cornerRadius="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/RéM"
+        app:layout_constraintStart_toEndOf="@+id/d5"
         tools:layout_editor_absoluteY="316dp" />
 
     <Button
