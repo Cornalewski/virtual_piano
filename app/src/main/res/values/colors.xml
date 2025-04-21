@@ -2,9 +2,4 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-
-    <style name="Button.black" parent="ThemeOverlay.AppCompat">
-        <item name="colorAccent">@android:color/black</item>
-    </style>
 </resources>
-

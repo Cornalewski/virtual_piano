@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.virtual_piano;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -74,12 +73,22 @@ public class MainActivity extends AppCompatActivity {
     private void agendarParada(int somId) {
         handler.postDelayed(() -> pararSom(somId), DELAY_MS);
     }
+    private void TestarSom(String path) throws IOException {
+        String[] som =  Rsound.store(path);
+
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
 
+        try {
+            TestarSom("R.raw.ode_alegria");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        setContentView(R.layout.activity_main);
         configurarBotao(R.id.c4, R.raw.c4);
         configurarBotao(R.id.d4, R.raw.d4);
         configurarBotao(R.id.e4, R.raw.e4);
