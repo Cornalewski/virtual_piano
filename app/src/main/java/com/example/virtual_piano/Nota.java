@@ -6,6 +6,7 @@ public class Nota {
     public boolean visivel;
     public long tempoInicio;
     public long duracao;
+    public boolean tocando;
 
 
     public Nota(String nome, boolean ligada, boolean visivel, long tempoInicio, long duracao) {
@@ -14,6 +15,7 @@ public class Nota {
         this.visivel = visivel;
         this.tempoInicio = tempoInicio;
         this.duracao = duracao;
+        this.tocando = false;
     }
 
 }

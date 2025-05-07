@@ -5,8 +5,9 @@ import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.MotionEvent;
-import android.graphics.Canvas;
 import android.view.View;
 import android.widget.Button;
 import androidx.activity.EdgeToEdge;
@@ -14,9 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -33,12 +32,20 @@ public class MainActivity extends AppCompatActivity {
     Button Bdo;
     private HashMap<Integer, MediaPlayer> players = new HashMap<>();
     private final Handler handler = new Handler();
+    private final Handler Thandler = new Handler();
     private static final int DELAY_MS = 1400;
+    private int Tempo_musica;
+    PartituraView partituraView;
+    boolean partituraJaIniciada = false;
 
+
+
+    List<Nota> notas = new ArrayList<>();
+    int t = 0;
     public List<Nota> carregarNotasDeAssets(Context context, String nomeArquivo) {
-        List<Nota> notas = new ArrayList<>();
+
         long tempoAtual = 0;
-        long duracaoNota = 500;
+        long duracaoNota = 700;
 
         Pattern padraoNota = Pattern.compile("([A-Ga-g]#?[0-9])"); // Ex: C4, D#5
 
@@ -64,10 +71,13 @@ public class MainActivity extends AppCompatActivity {
                         boolean visivel = estaNaTela(nota);
                         notas.add(new Nota(nota, ligada, visivel, tempoAtual, duracaoNota));
                         tempoAtual += ligada ? 0 : duracaoNota;
+                        Tempo_musica += tempoAtual;
+
                     }
                 }
             }
             br.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -89,8 +99,15 @@ public class MainActivity extends AppCompatActivity {
 
         botao.setOnTouchListener((v, event) -> {
             switch (event.getAction()) {
+
                 case MotionEvent.ACTION_DOWN:
+                    if (!partituraJaIniciada) {
+                        partituraView.iniciarPartitura();
+                        partituraJaIniciada = true;
+                    }
                     tocarSom(somId);
+                    String nomeNota = getNomeNotaPorId(somId);
+                    ativarNotaTocada(nomeNota);
                     v.performClick();
                     break;
 
@@ -113,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
                 player.prepare();
                 player.start();
+
             }
             players.put(som, player);
         } catch (IOException e) {
@@ -135,7 +153,63 @@ public class MainActivity extends AppCompatActivity {
     private void agendarParada(int somId) {
         handler.postDelayed(() -> pararSom(somId), DELAY_MS);
     }
+    private void ativarNotaTocada(String notaTocada) {
+        if (!partituraJaIniciada || partituraView == null) return;
 
+        long tempoAtual = System.currentTimeMillis() - partituraView.getTempoInicial();
+        final long tolerancia = 200; // 200 ms para frente/atrás
+
+        for (Nota nota : notas) {
+            if (!nota.visivel || nota.tocando) continue;
+
+            long inicio = nota.tempoInicio;
+            if (Math.abs(tempoAtual - inicio) <= tolerancia && nota.nome.equals(notaTocada)) {
+                nota.tocando = true;
+                partituraView.invalidate(); // Redesenha com destaque rosa
+                break; // Considera só a primeira nota compatível
+            }
+        }
+    }
+    private String getNomeNotaPorId(int somId) {
+
+        if (somId == R.raw.c4) {
+            return "C4";
+        } else if (somId == R.raw.c4sharp) {
+            return "C#4";
+        } else if (somId == R.raw.d4) {
+            return "D4";
+        } else if (somId == R.raw.d4sharp) {
+            return "D#4";
+        } else if (somId == R.raw.e4) {
+            return "E4";
+        } else if (somId == R.raw.f4) {
+            return "F4";
+        } else if (somId == R.raw.f4sharp) {
+            return "F#4";
+        } else if (somId == R.raw.g4) {
+            return "G4";
+        } else if (somId == R.raw.g4sharp) {
+            return "G#4";
+        } else if (somId == R.raw.a4) {
+            return "A4";
+        } else if (somId == R.raw.a4sharp) {
+            return "A#4";
+        } else if (somId == R.raw.b4) {
+            return "B4";
+        } else if (somId == R.raw.c5) {
+            return "C5";
+        } else if (somId == R.raw.c5sharp) {
+            return "C#5";
+        } else if (somId == R.raw.d5) {
+            return "D5";
+        } else if (somId == R.raw.d5sharp) {
+            return "D#5";
+        } else if (somId == R.raw.e5) {
+            return "E5";
+        } else {
+            return "";
+        }
+    }
     @SuppressLint("ClickableViewAccessibility")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,11 +217,21 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        PartituraView partituraView = findViewById(R.id.partituraView);
-        List<Nota> listaNotas = carregarNotasDeAssets(this, "ode_alegria.txt");
-        System.out.println("Teste");
-        partituraView.setNotas(listaNotas);
 
+
+        new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                new Runnable() {
+                    public void run() {
+                        Log.i("tag", "This'll run 300 milliseconds later");
+                        t++;
+                    }
+                },
+                500);
+
+
+        List<Nota> listaNotas = carregarNotasDeAssets(this, "ode_alegria.txt");
+        partituraView = findViewById(R.id.partituraView);
+        partituraView.setNotas(listaNotas);
         configurarBotao(R.id.c4, R.raw.c4);
         configurarBotao(R.id.d4, R.raw.d4);
         configurarBotao(R.id.e4, R.raw.e4);
@@ -165,9 +249,6 @@ public class MainActivity extends AppCompatActivity {
         configurarBotao(R.id.a4sharp, R.raw.a4sharp);
         configurarBotao(R.id.c5sharp, R.raw.c5sharp);
         configurarBotao(R.id.d5sharp, R.raw.d5sharp);
-
-
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
