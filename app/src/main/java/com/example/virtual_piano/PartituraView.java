@@ -118,12 +118,12 @@ public class PartituraView extends View {
             // ✅ Destaque se tocando
             if (nota.tocando) {
                 RectF fundo = new RectF(x, y - alturaNota / 2, x + largura, y + alturaNota / 2);
-                canvas.drawRoundRect(fundo, 20, 20, paintFundoVerde);
-                canvas.drawRoundRect(fundo, 20, 20, paintBordaVerde);
+                canvas.drawRoundRect(fundo, 50, 50, paintFundoVerde);
+                canvas.drawRoundRect(fundo, 50, 50, paintBordaVerde);
             }
 
             // 🎶 Nota com haste e contorno
-            RectF corpo = new RectF(x - raioNota, y - raioNota -10, x + raioNota, y + raioNota -34);
+            RectF corpo = new RectF(x - raioNota +10 , y - raioNota -5, x + raioNota, y + raioNota -34);
             canvas.drawOval(corpo, paintNota);
             canvas.drawOval(corpo, paintContorno);
             canvas.drawRect(x + raioNota - 2, y - alturaNota, x + raioNota + 2, y, paintHaste);

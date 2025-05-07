@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     public List<Nota> carregarNotasDeAssets(Context context, String nomeArquivo) {
 
         long tempoAtual = 0;
-        long duracaoNota = 700;
+        long duracaoNota = 800;
 
         Pattern padraoNota = Pattern.compile("([A-Ga-g]#?[0-9])"); // Ex: C4, D#5
 
