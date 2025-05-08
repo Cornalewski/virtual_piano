@@ -184,9 +184,6 @@ public class PartituraView extends View {
 
         return yBase + offset * espacamentoMeiaLinha;
     }
-
-
-
     public long getTempoInicial() {
         return tempoInicial != null ? tempoInicial : 0;
     }

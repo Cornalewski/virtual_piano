@@ -27,9 +27,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class MainActivity extends AppCompatActivity {
+public class Play_music extends AppCompatActivity {
 
-    Button Bdo;
     private HashMap<Integer, MediaPlayer> players = new HashMap<>();
     private final Handler handler = new Handler();
     private final Handler Thandler = new Handler();
@@ -211,14 +210,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     @SuppressLint("ClickableViewAccessibility")
+
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
-
-
-
+        setContentView(R.layout.teclas_c4_e5);
         new android.os.Handler(Looper.getMainLooper()).postDelayed(
                 new Runnable() {
                     public void run() {
@@ -227,8 +226,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 },
                 500);
-
-
         List<Nota> listaNotas = carregarNotasDeAssets(this, "ode_alegria.txt");
         partituraView = findViewById(R.id.partituraView);
         partituraView.setNotas(listaNotas);

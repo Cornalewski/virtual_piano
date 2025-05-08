@@ -12,11 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.Virtual_piano"
         tools:targetApi="31">
+        <activity
+            android:name=".Play_music"
+            android:exported="false"
+            android:screenOrientation="landscape"/>
+
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"/>
+            android:value="ca-app-pub-3940256099942544~3347511713" />
+
         <activity
-            android:name=".MainActivity"
+            android:name=".Level_selection"
             android:exported="true"
             android:screenOrientation="landscape"
             tools:ignore="DiscouragedApi">
