@@ -250,27 +250,28 @@
         app:layout_constraintStart_toEndOf="@+id/c4"
         tools:ignore="DuplicateSpeakableTextCheck" />
 
-    <SurfaceView
-        android:id="@+id/surfaceView"
-        android:layout_width="707dp"
-        android:layout_height="190dp"
-        android:background="#979797"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.14" />
-
     <com.example.virtual_piano.PartituraView
         android:id="@+id/partituraView"
         android:layout_width="682dp"
-        android:layout_height="175dp"
-        android:layout_marginStart="16dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="12dp"
         android:backgroundTint="#2CC0FF"
         app:layout_constraintBottom_toBottomOf="@+id/surfaceView"
         app:layout_constraintStart_toStartOf="@+id/surfaceView"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.673" />
+        app:layout_constraintVertical_bias="0.0" />
+
+    <SurfaceView
+        android:id="@+id/surfaceView"
+        android:layout_width="708dp"
+        android:layout_height="196dp"
+        android:background="#979797"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.075"
+        tools:visibility="invisible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

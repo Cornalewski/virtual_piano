@@ -9,7 +9,9 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PartituraView extends View {
 
@@ -128,29 +130,61 @@ public class PartituraView extends View {
             canvas.drawOval(corpo, paintContorno);
             canvas.drawRect(x + raioNota - 2, y - alturaNota, x + raioNota + 2, y, paintHaste);
         }
-
         postInvalidateDelayed(16);
+
     }
 
 
+    private int getOffsetMeiaLinha(String nomeNota) {
+        Map<String, Integer> posicoes = new HashMap<>();
+        posicoes.put("E5", -3);
+        posicoes.put("D#5", -3); posicoes.put("D5", -1);
+        posicoes.put("C#5", -2); posicoes.put("C5", 0);
+        posicoes.put("B4", 0);
+        posicoes.put("A#4", 1); posicoes.put("A4", 3);
+        posicoes.put("G#4", 2); posicoes.put("G4", 4);
+        posicoes.put("F#4", 3); posicoes.put("F4", 5);
+        posicoes.put("E4", 4);
+        posicoes.put("D#4", 5); posicoes.put("D4", 7);
+        posicoes.put("C#4", 6); posicoes.put("C4", 8);
+        return posicoes.getOrDefault(nomeNota.toUpperCase(), 0);
+    }
 
     private float getYParaNota(String nomeNota) {
-        // Define a ordem das notas
-        String[] ordem = {"C", "D", "E", "F", "G", "A", "B"};
+        // Altura entre linhas (ex: 40px entre linhas → 20px por "meia linha")
+        float espacamentoMeiaLinha = 20f;
 
-        // Extrai nome e oitava
-        String letra = nomeNota.substring(0, 1);
-        int oitava = Integer.parseInt(nomeNota.substring(1));
+        // Posição da linha do meio (B4)
+        float yBase = getHeight() / 2;
 
-        // Calcula posição relativa ao B4 (linha do meio)
-        int distanciaSemitons = (oitava - 4) * 7 + (Arrays.asList(ordem).indexOf(letra) - Arrays.asList(ordem).indexOf("B"));
-        float espacamentoMeiaLinha = 15f; // altura entre linha e espaço
+        // Mapeia posições relativas em "meia linha" (0 = B4)
+        Map<String, Integer> posicoes = new HashMap<>();
 
-        // Linha do meio (B4) no centro vertical
-        float yCentro = getHeight() / 2;
+        posicoes.put("E5", 0);
+        posicoes.put("D#5", 1);
+        posicoes.put("D5", 1);
+        posicoes.put("C#5", 2);
+        posicoes.put("C5", 2);
+        posicoes.put("B4", 3);
+        posicoes.put("A#4", 4);
+        posicoes.put("A4", 5);
+        posicoes.put("G#4", 6);
+        posicoes.put("G4", 6);
+        posicoes.put("F#4", 7);
+        posicoes.put("F4", 7);
+        posicoes.put("E4", 8);
+        posicoes.put("D#4", 9);
+        posicoes.put("D4", 9);
+        posicoes.put("C#4", 10);
+        posicoes.put("C4", 10);
 
-        return yCentro + distanciaSemitons * (-espacamentoMeiaLinha);
+        // Verifica posição
+        Integer offset = posicoes.get(nomeNota.toUpperCase());
+        if (offset == null) return yBase; // default: B4 no centro
+
+        return yBase + offset * espacamentoMeiaLinha;
     }
+
 
 
     public long getTempoInicial() {
