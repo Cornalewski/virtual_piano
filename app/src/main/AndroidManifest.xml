@@ -15,7 +15,8 @@
         <activity
             android:name=".Play_music"
             android:exported="false"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            tools:ignore="DiscouragedApi" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"

@@ -1,6 +1,7 @@
 package com.example.virtual_piano;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -36,9 +37,6 @@ public class Play_music extends AppCompatActivity {
     private int Tempo_musica;
     PartituraView partituraView;
     boolean partituraJaIniciada = false;
-
-
-
     List<Nota> notas = new ArrayList<>();
     int t = 0;
     public List<Nota> carregarNotasDeAssets(Context context, String nomeArquivo) {
@@ -83,16 +81,12 @@ public class Play_music extends AppCompatActivity {
 
         return notas;
     }
-
-
     private boolean estaNaTela(String nota) {
         // Considera C3 até E5
         String[] visiveis = {"C4", "C#4", "D4", "D#4", "E4", "F4", "F#4", "G4", "G#4",
                              "A4", "A#4", "B4","C5", "C#5", "D5", "D#5", "E5"};
         return Arrays.asList(visiveis).contains(nota);
     }
-
-
     private void configurarBotao(int botaoId, int somId) {
         View botao = findViewById(botaoId);
 
@@ -136,7 +130,6 @@ public class Play_music extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
     private void pararSom(int somId) {
         MediaPlayer player = players.get(somId);
         if (player != null) {
@@ -145,7 +138,6 @@ public class Play_music extends AppCompatActivity {
             players.remove(somId);
         }
     }
-
     private void pararSomAtrasado(int somId) {
         handler.removeCallbacksAndMessages(somId);
     }
@@ -226,7 +218,9 @@ public class Play_music extends AppCompatActivity {
                     }
                 },
                 500);
-        List<Nota> listaNotas = carregarNotasDeAssets(this, "ode_alegria.txt");
+        Intent it = getIntent();
+        String Partitura_path = it.getStringExtra("Partitura");
+        List<Nota> listaNotas = carregarNotasDeAssets(this, Partitura_path);
         partituraView = findViewById(R.id.partituraView);
         partituraView.setNotas(listaNotas);
         configurarBotao(R.id.c4, R.raw.c4);

@@ -30,6 +30,8 @@ public class Level_selection extends AppCompatActivity {
     }
     public void proxima_tela(){
       Intent it = new Intent(getBaseContext(),Play_music.class);
+      it.putExtra("Partitura","ode_alegria.txt");
+      setIntent(it);
       startActivity(it);
     }
     public void Tela_musica(View v){
@@ -55,6 +57,7 @@ public class Level_selection extends AppCompatActivity {
         mostrarCardBox(b_selection);
         proximo = findViewById(R.id.iniciar);
         Tela_musica(proximo);
+
 
     }
 }

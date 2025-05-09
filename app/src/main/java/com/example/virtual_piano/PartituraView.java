@@ -1,6 +1,10 @@
 package com.example.virtual_piano;
 
+import static android.app.PendingIntent.getActivity;
+import static android.content.Intent.getIntent;
+
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -20,8 +24,6 @@ public class PartituraView extends View {
     private Paint paintLinha;
     private Paint paintDestaque;
     private Long tempoInicial = null;
-
-
     private static final float VELOCIDADE_PIXELS_POR_MS = 0.01f;
     private static final float Espaçamento_nota = 0.40f;
     private static final float raioNota = 42f;
@@ -62,10 +64,10 @@ public class PartituraView extends View {
 
         long tempoAtual = System.currentTimeMillis() - tempoInicial;
 
-        // 🔳 Fundo branco
+        //  Fundo branco
         canvas.drawColor(Color.parseColor("#FDFDFD"));
 
-        // 🎼 Pentagrama
+        //  Pentagrama
         Paint paintLinha = new Paint();
         paintLinha.setColor(Color.parseColor("#CCCCCC"));
         paintLinha.setStrokeWidth(2);
@@ -76,7 +78,7 @@ public class PartituraView extends View {
             canvas.drawLine(0, y, getWidth(), y, paintLinha);
         }
 
-        // 🎶 Paints
+        //  Paints
         Paint paintNota = new Paint();
         paintNota.setColor(Color.WHITE);
         paintNota.setStyle(Paint.Style.FILL);
@@ -117,14 +119,14 @@ public class PartituraView extends View {
 
             float largura = nota.duracao * VELOCIDADE_PIXELS_POR_MS;
 
-            // ✅ Destaque se tocando
+            // Destaque se tocando
             if (nota.tocando) {
                 RectF fundo = new RectF(x, y - alturaNota / 2, x + largura, y + alturaNota / 2);
                 canvas.drawRoundRect(fundo, 50, 50, paintFundoVerde);
                 canvas.drawRoundRect(fundo, 50, 50, paintBordaVerde);
             }
 
-            // 🎶 Nota com haste e contorno
+            //  Nota com haste e contorno
             RectF corpo = new RectF(x - raioNota +10 , y - raioNota -5, x + raioNota, y + raioNota -34);
             canvas.drawOval(corpo, paintNota);
             canvas.drawOval(corpo, paintContorno);
