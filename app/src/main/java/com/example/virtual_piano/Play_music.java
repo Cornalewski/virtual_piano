@@ -40,9 +40,9 @@ public class Play_music extends AppCompatActivity {
     List<Nota> notas = new ArrayList<>();
     int t = 0;
     public List<Nota> carregarNotasDeAssets(Context context, String nomeArquivo) {
-
         long tempoAtual = 0;
-        long duracaoNota = 800;
+        int duracaoPadrao = 800;
+        int duracaoCurta = 400;
 
         Pattern padraoNota = Pattern.compile("([A-Ga-g]#?[0-9])"); // Ex: C4, D#5
 
@@ -52,27 +52,38 @@ public class Play_music extends AppCompatActivity {
             String linha;
 
             while ((linha = br.readLine()) != null) {
-                boolean ligada = false;
+                // Divide a linha entre partes separadas por espaço (notas individuais)
+                String[] partes = linha.trim().split(" ");
 
-                // Se houver notas ligadas (entre |), separa manualmente
-                String[] partes = linha.split("(?=\\|)|(?<=\\|)");
                 for (String parte : partes) {
-                    ligada = parte.startsWith("|") && parte.endsWith("|");
+                    boolean ligada = parte.startsWith("|") && parte.endsWith("|");
 
-                    // Remove os | antes de aplicar regex
-                    parte = parte.replace("|", "");
+                    // Remove | antes de aplicar regex
+                    String trecho = parte.replace("|", "");
 
-                    Matcher matcher = padraoNota.matcher(parte);
+                    Matcher matcher = padraoNota.matcher(trecho);
+
+                    // Conta quantas notas existem nesse bloco
+                    List<String> notasNoBloco = new ArrayList<>();
                     while (matcher.find()) {
-                        String nota = matcher.group(1).toUpperCase();
-                        boolean visivel = estaNaTela(nota);
-                        notas.add(new Nota(nota, ligada, visivel, tempoAtual, duracaoNota));
-                        tempoAtual += ligada ? 0 : duracaoNota;
-                        Tempo_musica += tempoAtual;
+                        notasNoBloco.add(matcher.group(1).toUpperCase());
+                    }
 
+                    int qtdNotas = notasNoBloco.size();
+                    if (qtdNotas == 0) continue;
+
+                    // Determina se é um bloco "colado" ou não
+                    int duracao = (qtdNotas > 1 && !parte.contains(" ")) ? duracaoCurta : duracaoPadrao;
+
+                    for (String notaTexto : notasNoBloco) {
+                        boolean visivel = estaNaTela(notaTexto);
+                        notas.add(new Nota(notaTexto, ligada, visivel, tempoAtual, duracao));
+                        tempoAtual += ligada ? 0 : duracao;
+                        Tempo_musica += tempoAtual;
                     }
                 }
             }
+
             br.close();
 
         } catch (IOException e) {
@@ -81,6 +92,7 @@ public class Play_music extends AppCompatActivity {
 
         return notas;
     }
+
     private boolean estaNaTela(String nota) {
         // Considera C3 até E5
         String[] visiveis = {"C4", "C#4", "D4", "D#4", "E4", "F4", "F#4", "G4", "G#4",

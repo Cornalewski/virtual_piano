@@ -5,16 +5,35 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-
+import android.widget.TextView;
+import java.util.Arrays;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.TypedArrayUtils;
 
 public class Level_selection extends AppCompatActivity {
    Button b_selection,proximo;
+   TextView tv;
    View card_box;
-    public void mostrarCardBox(View v) {
+    public static String[] removeElement(String[] arr, int index) {
+        if (arr == null || index >= arr.length) {
+            return arr; // Or throw an exception for invalid input
+        }
+       if (index < 0){
+           index = arr.length -1;
+       }
+        String[] newArray = new String[arr.length - 1];
+        System.arraycopy(arr, 0, newArray, 0, index);
+        System.arraycopy(arr, index + 1, newArray, index, arr.length - index - 1);
+        return newArray;
+    }
+    public void mostrarCardBox(View v,String path) {
         View cardBox = findViewById(R.id.card_view);
+        tv = findViewById(R.id.texto_caixa);
+        String[] temp = (path.split("[._]"));
+        temp = removeElement(temp,-1);
+        tv.setText(String.join(" ",temp).toUpperCase());
         v.setOnTouchListener((view, event) -> {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
@@ -28,21 +47,22 @@ public class Level_selection extends AppCompatActivity {
             return false;
         });
     }
-    public void proxima_tela(){
+    public void proxima_tela(String path){
       Intent it = new Intent(getBaseContext(),Play_music.class);
-      it.putExtra("Partitura","ode_alegria.txt");
+      it.putExtra("Partitura",path);
       setIntent(it);
       startActivity(it);
     }
-    public void Tela_musica(View v){
-
+    public void Tela_musica(View v,String path){
+        mostrarCardBox(b_selection,path);
         v.setOnTouchListener((view,event) ->{
+
             switch (event.getAction()){
                 case MotionEvent.ACTION_DOWN:
                     return true;
                 case MotionEvent.ACTION_UP:
                     view.performClick();
-                    proxima_tela();
+                    proxima_tela(path);
                     return  true;
             }
             return false;
@@ -54,9 +74,10 @@ public class Level_selection extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.selection_screen);
         b_selection = findViewById(R.id.Level_1);
-        mostrarCardBox(b_selection);
         proximo = findViewById(R.id.iniciar);
-        Tela_musica(proximo);
+        Tela_musica(proximo,"ode_alegria.txt");
+
+
 
 
     }
