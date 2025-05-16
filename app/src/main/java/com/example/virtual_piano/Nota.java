@@ -4,6 +4,7 @@ public class Nota {
     public String nome;
     public boolean ligada;
     public boolean visivel;
+    public boolean colcheia;
     public long tempoInicio;
     public long duracao;
     public boolean tocando;

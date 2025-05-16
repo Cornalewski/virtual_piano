@@ -1,18 +1,11 @@
 package com.example.virtual_piano;
-
-import static android.app.PendingIntent.getActivity;
-import static android.content.Intent.getIntent;
-
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
-
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -58,9 +51,15 @@ public class PartituraView extends View {
         tempoInicial = System.currentTimeMillis();
         invalidate();
     }
+    private Map<Long, Float> beamBottomByTempo = new HashMap<>();
 
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        float espacamentoEntreNotas = 140f;
+        float alturaFeixe = 8f;// espessura do feixe
+        float alturaHasteTotal = alturaNota + alturaFeixe;
+        beamBottomByTempo.clear();
+
 
         if (tempoInicial == null || notas == null) return;
 
@@ -111,48 +110,66 @@ public class PartituraView extends View {
         Map<Long, List<Nota>> notasPorTempo = new HashMap<>();
         for (Nota nota : notas) {
             if (!nota.visivel) continue;
-            notasPorTempo.computeIfAbsent(nota.tempoInicio, k -> new ArrayList<>()).add(nota);
+            notasPorTempo
+                    .computeIfAbsent(nota.tempoInicio, k -> new ArrayList<>())
+                    .add(nota);
         }
 
-        Paint paintConexao = new Paint();
-        paintConexao.setColor(Color.BLACK);
-        paintConexao.setStrokeWidth(6);
 
-        for (List<Nota> grupo : notasPorTempo.values()) {
-            if (grupo.size() < 2) continue;
+        Paint paintFeixe = new Paint();
+        paintFeixe.setColor(Color.BLACK);
+        paintFeixe.setStyle(Paint.Style.FILL);
+
+        for (Map.Entry<Long, List<Nota>> entry : notasPorTempo.entrySet()) {
+            Long tempoDoGrupo = entry.getKey();
+            List<Nota> grupo = entry.getValue();
+
             List<Float> xs = new ArrayList<>();
-            float yReferencia = 0;
+            List<Float> ysTopos = new ArrayList<>();
             for (Nota nota : grupo) {
-                long tempoRelativo = nota.tempoInicio - tempoAtual;
+                if (!nota.colcheia || !nota.visivel) continue;
 
-// Verifica quantas notas existem neste tempo para deslocamento visual
-                int indiceVisual = 0;
-                int totalNoMesmoTempo = 1;
-                List<Nota> grupoMesmoTempo = notasPorTempo.get(nota.tempoInicio);
-                if (grupoMesmoTempo != null) {
-                    totalNoMesmoTempo = grupoMesmoTempo.size();
-                    indiceVisual = grupoMesmoTempo.indexOf(nota);
-                }
-                float espacamentoEntreNotas = 40f;
-                float x = getWidth() / 2 + tempoRelativo * Espaçamento_nota
-                        + (indiceVisual - (totalNoMesmoTempo - 1) / 2f) * espacamentoEntreNotas;
+                long rel = nota.tempoInicio - tempoAtual;
+                float xCentro = getWidth()/2f
+                        + rel * Espaçamento_nota
+                        + (grupo.indexOf(nota) - (grupo.size() - 1)/2f)
+                        * espacamentoEntreNotas;
+                float yCentro = getYParaNota(nota.nome);
 
-                float y = getYParaNota(nota.nome);
-                xs.add(x);
-                yReferencia = y;
+                // topo da haste estendido
+                float yStemTop = yCentro - (alturaNota + alturaFeixe);
+                xs.add(xCentro + raioNota - 2);
+                ysTopos.add(yStemTop);
             }
-            float yConexao = yReferencia - alturaNota - 10;
+            if (xs.size() < 2) continue;
+
             Collections.sort(xs);
-            canvas.drawLine(xs.get(0), yConexao, xs.get(xs.size() - 1), yConexao, paintConexao);
+            float xStart = xs.get(0);
+            float xEnd   = xs.get(xs.size()-1);
+
+            float yMinStemTop = Collections.min(ysTopos);
+            // armazena o “bottom” do feixe (onde a haste deve tocar)
+            float feixeBottom = yMinStemTop + alturaFeixe;
+            beamBottomByTempo.put(tempoDoGrupo, feixeBottom);
+
+            // desenha o feixe
+            canvas.drawRect(
+                    xStart,
+                    yMinStemTop,
+                    xEnd,
+                    feixeBottom,
+                    paintFeixe
+            );
         }
 
-        // Desenhar notas
+
+
         for (Nota nota : notas) {
             if (!nota.visivel) continue;
 
             long tempoRelativo = nota.tempoInicio - tempoAtual;
 
-// Verifica quantas notas existem neste tempo para deslocamento visual
+            // Verifica quantas notas existem neste tempo para deslocamento visual
             int indiceVisual = 0;
             int totalNoMesmoTempo = 1;
             List<Nota> grupoMesmoTempo = notasPorTempo.get(nota.tempoInicio);
@@ -160,7 +177,7 @@ public class PartituraView extends View {
                 totalNoMesmoTempo = grupoMesmoTempo.size();
                 indiceVisual = grupoMesmoTempo.indexOf(nota);
             }
-            float espacamentoEntreNotas = 40f;
+
             float x = getWidth() / 2 + tempoRelativo * Espaçamento_nota
                     + (indiceVisual - (totalNoMesmoTempo - 1) / 2f) * espacamentoEntreNotas;
 
@@ -176,7 +193,6 @@ public class PartituraView extends View {
                 canvas.drawRoundRect(fundo, 50, 50, paintBordaVerde);
             }
 
-            // ♯ Sustenido
             if (nota.nome.contains("#")) {
                 Paint paintSustenido = new Paint();
                 paintSustenido.setColor(Color.BLACK);
@@ -188,7 +204,30 @@ public class PartituraView extends View {
             RectF corpo = new RectF(x - raioNota + 10, y - raioNota - 5, x + raioNota, y + raioNota - 34);
             canvas.drawOval(corpo, paintNota);
             canvas.drawOval(corpo, paintContorno);
-            canvas.drawRect(x + raioNota - 2, y - alturaNota, x + raioNota + 2, y, paintHaste);
+            if (nota.colcheia) {
+                Float yStemTop = beamBottomByTempo.get(nota.tempoInicio);
+                if (yStemTop != null) {
+                    // desenha haste do feixe até o corpo da nota
+                    canvas.drawRect(
+                            x + raioNota - 2,
+                            yStemTop,
+                            x + raioNota + 2,
+                            y,
+                            paintHaste
+                    );
+                }
+            } else {
+                // haste normal de p.ex. semicolcheia ou mínima
+                canvas.drawRect(
+                        x + raioNota - 2,
+                        y - alturaNota,
+                        x + raioNota + 2,
+                        y,
+                        paintHaste
+                );
+            }
+
+
         }
 
         postInvalidateDelayed(16);

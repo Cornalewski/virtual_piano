@@ -77,7 +77,9 @@ public class Play_music extends AppCompatActivity {
 
                     for (String notaTexto : notasNoBloco) {
                         boolean visivel = estaNaTela(notaTexto);
-                        notas.add(new Nota(notaTexto, ligada, visivel, tempoAtual, duracao));
+                        Nota nota = new Nota(notaTexto, ligada, visivel, tempoAtual, duracao);
+                        nota.colcheia = (duracao == duracaoCurta);
+                        notas.add(nota);
                         tempoAtual += ligada ? 0 : duracao;
                         Tempo_musica += tempoAtual;
                     }
