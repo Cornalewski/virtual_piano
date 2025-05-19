@@ -257,28 +257,28 @@ public class PartituraView extends View {
         float yBase = getHeight() / 2;
 
         // Mapeia posições relativas em "meia linha" (0 = B4)
-        Map<String, Integer> posicoes = new HashMap<>();
+        Map<String, Float> posicoes = new HashMap<>();
 
-        posicoes.put("E5", 0);
-        posicoes.put("D#5", 1);
-        posicoes.put("D5", 1);
-        posicoes.put("C#5", 2);
-        posicoes.put("C5", 2);
-        posicoes.put("B4", 3);
-        posicoes.put("A#4", 4);
-        posicoes.put("A4", 5);
-        posicoes.put("G#4", 6);
-        posicoes.put("G4", 6);
-        posicoes.put("F#4", 7);
-        posicoes.put("F4", 7);
-        posicoes.put("E4", 8);
-        posicoes.put("D#4", 9);
-        posicoes.put("D4", 9);
-        posicoes.put("C#4", 10);
-        posicoes.put("C4", 10);
+        posicoes.put("E5", -0.8F);
+        posicoes.put("D#5", 0.5F);
+        posicoes.put("D5", 0.5F);
+        posicoes.put("C#5", 2.0F);
+        posicoes.put("C5", 2.0F);
+        posicoes.put("B4", 3.0F);
+        posicoes.put("A#4", 4.6F);
+        posicoes.put("A4", 4.6F);
+        posicoes.put("G#4", 5.8F);
+        posicoes.put("G4", 5.8F);
+        posicoes.put("F#4", 7.0F);
+        posicoes.put("F4", 7.0F);
+        posicoes.put("E4", 8.0F);
+        posicoes.put("D#4", 9.0F);
+        posicoes.put("D4", 9.0F);
+        posicoes.put("C#4", 10.0F);
+        posicoes.put("C4", 10.0F);
 
         // Verifica posição
-        Integer offset = posicoes.get(nomeNota.toUpperCase());
+        Float offset = posicoes.get(nomeNota.toUpperCase());
         if (offset == null) return yBase; // default: B4 no centro
 
         return yBase + offset * espacamentoMeiaLinha;

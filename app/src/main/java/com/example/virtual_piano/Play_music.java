@@ -215,9 +215,99 @@ public class Play_music extends AppCompatActivity {
             return "";
         }
     }
-    @SuppressLint("ClickableViewAccessibility")
+
+    private int getRawIdPorNome(String nomeNota) {
+        switch (nomeNota) {
+            case "C2":   return R.raw.c2;
+            case "C#2":   return R.raw.c2sharp;
+            case "D2":   return R.raw.d2;
+            case "D#2":   return R.raw.d2sharp;
+            case "E2":   return R.raw.e2;
+            case "F2":   return R.raw.f2;
+            case "F#2":   return R.raw.f2sharp;
+            case "G2":   return R.raw.g2;
+            case "G#2":   return R.raw.g2sharp;
+            case "A2" :   return R.raw.a2;
+            case "A#2" :   return R.raw.a2sharp;
+            case "B2" :   return R.raw.b2;
+
+            case "C3":   return R.raw.c3;
+            case "C#3":   return R.raw.c3sharp;
+            case "D3":   return R.raw.d3;
+            case "D#3":   return R.raw.d3sharp;
+            case "E3":   return R.raw.e3;
+            case "F3":   return R.raw.f3;
+            case "F#3":   return R.raw.f3sharp;
+            case "G3":   return R.raw.g3;
+            case "G#3":   return R.raw.g3sharp;
+            case "A3" :   return R.raw.a3;
+            case "A#3" :   return R.raw.a3sharp;
+            case "B3" :   return R.raw.b3;
 
 
+            case "C4":   return R.raw.c4;
+            case "C#4":   return R.raw.c4sharp;
+            case "D4":   return R.raw.d4;
+            case "D#4":   return R.raw.d4sharp;
+            case "E4":   return R.raw.e4;
+            case "F4":   return R.raw.f4;
+            case "F#4":   return R.raw.f4sharp;
+            case "G4":   return R.raw.g4;
+            case "G#4":   return R.raw.g4sharp;
+            case "A4" :   return R.raw.a4;
+            case "A#4" :   return R.raw.a4sharp;
+            case "B4" :   return R.raw.b4;
+
+            case "C5":   return R.raw.c5;
+            case "C#5":   return R.raw.c5sharp;
+            case "D5":   return R.raw.d5;
+            case "D#5":   return R.raw.d5sharp;
+            case "E5":   return R.raw.e5;
+            case "F5":   return R.raw.f5;
+            case "F#5":   return R.raw.f5sharp;
+            case "G5":   return R.raw.g5;
+            case "G#5":   return R.raw.g5sharp;
+            case "A5" :   return R.raw.a5;
+            case "A#5" :   return R.raw.a5sharp;
+            case "B5" :   return R.raw.b5;
+
+
+            case "C6":   return R.raw.c6;
+            case "C#6":   return R.raw.c6sharp;
+            case "D6":   return R.raw.d6;
+            case "D#6":   return R.raw.d6sharp;
+            case "E6":   return R.raw.e6;
+            case "F6":   return R.raw.f6;
+            case "F#6":   return R.raw.f6sharp;
+            case "G6":   return R.raw.g6;
+            case "G#6":   return R.raw.g6sharp;
+            case "A6" :   return R.raw.a6;
+            case "A#6" :   return R.raw.a6sharp;
+            case "B6" :   return R.raw.b6;
+
+            case "C7":    return R.raw.c7;
+
+            default:     return 0;
+        }
+    }
+    public void iniciarPartitura() {
+        partituraView.iniciarPartitura();
+
+        // 2) agenda o som das notas invisíveis
+        for (Nota nota : notas) {
+            if (!nota.visivel) {
+                int rawId = getRawIdPorNome(nota.nome);
+                if (rawId != 0) {
+                    handler.postDelayed(() -> {
+                        tocarSom(rawId);
+                        handler.postDelayed(() -> pararSom(rawId), nota.duracao);
+                    }, nota.tempoInicio);
+                } else {
+                    Log.w("Play_music", "sem raw para " + nota.nome);
+                }
+            }
+        }
+    }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -237,6 +327,9 @@ public class Play_music extends AppCompatActivity {
         List<Nota> listaNotas = carregarNotasDeAssets(this, Partitura_path);
         partituraView = findViewById(R.id.partituraView);
         partituraView.setNotas(listaNotas);
+       // chama o agendador que inicia TANTO a view quanto o som
+        iniciarPartitura();
+        partituraJaIniciada = true;
         configurarBotao(R.id.c4, R.raw.c4);
         configurarBotao(R.id.d4, R.raw.d4);
         configurarBotao(R.id.e4, R.raw.e4);
