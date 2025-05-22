@@ -19,10 +19,16 @@ public class PartituraView extends View {
     private Paint paintLinha;
     private Paint paintDestaque;
     private Long tempoInicial = null;
-    private static final float VELOCIDADE_PIXELS_POR_MS = 0.01f;
-    private static final float Espaçamento_nota = 0.40f;
+
     private static final float raioNota = 42f;
     private static final float alturaNota = 120f;
+
+    // mapeamento de tempo → espaçamento “fixo” entre notas
+    public static final float TIME_TO_PX = 0.35f;
+    // velocidade real de deslocamento da partitura (rolagem)
+    public static final float SCROLL_SPEED = 0.35f;
+    public float espacamentoEntreNotas = 140f;
+
 
     public PartituraView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -129,16 +135,26 @@ public class PartituraView extends View {
             for (Nota nota : grupo) {
                 if (!nota.colcheia || !nota.visivel) continue;
 
-                long rel = nota.tempoInicio - tempoAtual;
-                float xCentro = getWidth()/2f
-                        + rel * Espaçamento_nota
-                        + (grupo.indexOf(nota) - (grupo.size() - 1)/2f)
-                        * espacamentoEntreNotas;
+                tempoAtual = System.currentTimeMillis() - tempoInicial;
+
+                // 1️⃣ posição “base” da nota no layout (fixa, sem scroll)
+                float xBase = getWidth()/2f
+                        + nota.tempoInicio * TIME_TO_PX;
+
+                // 2️⃣ quanto tod0 o sistema já rolou (scroll)
+                float deslocamento = tempoAtual * SCROLL_SPEED;
+
+                // 3️⃣ offset para notas simultâneas (chords)
+                float chordOffset = (grupo.indexOf(nota) - (grupo.size()-1)/2f) * espacamentoEntreNotas;
+
+                // 4️⃣ posição final
+                float x = xBase - deslocamento + chordOffset;
+
                 float yCentro = getYParaNota(nota.nome);
 
                 // topo da haste estendido
                 float yStemTop = yCentro - (alturaNota + alturaFeixe);
-                xs.add(xCentro + raioNota - 2);
+                xs.add(x + raioNota - 2);
                 ysTopos.add(yStemTop);
             }
             if (xs.size() < 2) continue;
@@ -178,20 +194,47 @@ public class PartituraView extends View {
                 indiceVisual = grupoMesmoTempo.indexOf(nota);
             }
 
-            float x = getWidth() / 2 + tempoRelativo * Espaçamento_nota
-                    + (indiceVisual - (totalNoMesmoTempo - 1) / 2f) * espacamentoEntreNotas;
+            float halfWidth = getWidth() / 2f;
+            float xBase = halfWidth
+                    + nota.tempoInicio * TIME_TO_PX;
+
+            float deslocamento = tempoAtual * SCROLL_SPEED;
+
+            float chordOffset = (indiceVisual
+                    - (totalNoMesmoTempo - 1) / 2f
+            ) * espacamentoEntreNotas;
+
+            float x = xBase - deslocamento + chordOffset;
 
             float y = getYParaNota(nota.nome);
 
             if (x > getWidth() || x < -100) continue;
 
-            float largura = nota.duracao * VELOCIDADE_PIXELS_POR_MS;
-
             if (nota.tocando) {
-                RectF fundo = new RectF(x, y - alturaNota / 2, x + largura, y + alturaNota / 2);
-                canvas.drawRoundRect(fundo, 50, 50, paintFundoVerde);
-                canvas.drawRoundRect(fundo, 50, 50, paintBordaVerde);
+                // 1️⃣ coordenadas do retângulo
+                float left   = x - raioNota + 9f;
+                float top    = y - raioNota - 5f;
+                float right  = x + raioNota + 100f;
+                float bottom = y + raioNota - 33f;
+                RectF retangulo = new RectF(left, top, right, bottom);
+
+                // 2️⃣ cálculo do progresso (0 → início da nota, 1 → fim da nota)
+                float elapsed = (System.currentTimeMillis() - tempoInicial) - nota.tempoInicio;
+                float ratio   = Math.min(Math.max(elapsed / (float)nota.duracao, 0f), 1f);
+
+                // 3️⃣ retângulo de preenchimento parcial
+                RectF fillRect = new RectF(
+                        left,
+                        top,
+                        left + (right - left) * ratio,
+                        bottom
+                );
+                canvas.drawRoundRect(fillRect, 35, 35, paintFundoVerde);
+
+                // 4️⃣ contorno completo
+                canvas.drawRoundRect(retangulo, 35, 35, paintBordaVerde);
             }
+
 
             if (nota.nome.contains("#")) {
                 Paint paintSustenido = new Paint();
@@ -226,10 +269,7 @@ public class PartituraView extends View {
                         paintHaste
                 );
             }
-
-
         }
-
         postInvalidateDelayed(16);
     }
 

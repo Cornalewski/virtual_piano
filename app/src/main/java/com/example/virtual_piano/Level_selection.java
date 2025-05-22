@@ -39,7 +39,7 @@ public class Level_selection extends AppCompatActivity {
                     return true;
 
                 case MotionEvent.ACTION_UP:
-                    view.performClick(); // agora no lugar certo
+                    view.performClick();
                     return true;
             }
             return false;

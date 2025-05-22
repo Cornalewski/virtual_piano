@@ -42,7 +42,7 @@ public class Play_music extends AppCompatActivity {
     public List<Nota> carregarNotasDeAssets(Context context, String nomeArquivo) {
         long tempoAtual = 0;
         int duracaoPadrao = 800;
-        int duracaoCurta = 400;
+        int duracaoCurta = 600;
 
         Pattern padraoNota = Pattern.compile("([A-Ga-g]#?[0-9])"); // Ex: C4, D#5
 
@@ -161,20 +161,46 @@ public class Play_music extends AppCompatActivity {
     private void ativarNotaTocada(String notaTocada) {
         if (!partituraJaIniciada || partituraView == null) return;
 
-        long tempoAtual = System.currentTimeMillis() - partituraView.getTempoInicial();
-        final long tolerancia = 200; // 200 ms para frente/atrás
+        // 1️⃣ calcula tempo e posições base
+        long agora      = System.currentTimeMillis();
+        long tempoAtual = agora - partituraView.getTempoInicial();
+        float halfW     = partituraView.getWidth() / 2f;
+        float hitRange  = 40f;  // tolerância em pixels
 
+        // 2️⃣ percorre as notas visíveis não-tocadas
         for (Nota nota : notas) {
             if (!nota.visivel || nota.tocando) continue;
+            if (!nota.nome.equals(notaTocada)) continue;
 
-            long inicio = nota.tempoInicio;
-            if (Math.abs(tempoAtual - inicio) <= tolerancia && nota.nome.equals(notaTocada)) {
+            // 3️⃣ grupo de notas simultâneas (para chordOffset)
+            List<Nota> grupo = new ArrayList<>();
+            for (Nota n : notas) {
+                if (n.visivel && n.tempoInicio == nota.tempoInicio) {
+                    grupo.add(n);
+                }
+            }
+            int idx   = grupo.indexOf(nota);
+            int total = grupo.size();
+
+            // 4️⃣ reencontra X da nota exatamente como no onDraw
+            float xBase      = halfW + nota.tempoInicio * PartituraView.TIME_TO_PX;
+            float deslocamento = tempoAtual * PartituraView.SCROLL_SPEED;
+            float chordOffset  = (idx - (total - 1) / 2f)
+                    * partituraView.espacamentoEntreNotas;
+            float xNota     = xBase - deslocamento + chordOffset;
+
+            // 5️⃣ linha do meio
+            float xIndicador = halfW;
+
+            // 6️⃣ se estiver dentro do hitRange, marca como tocando
+            if (Math.abs(xNota - xIndicador) <= hitRange) {
                 nota.tocando = true;
-                partituraView.invalidate(); // Redesenha com destaque rosa
-                break; // Considera só a primeira nota compatível
+                partituraView.invalidate();
+                break;
             }
         }
     }
+
     private String getNomeNotaPorId(int somId) {
 
         if (somId == R.raw.c4) {
