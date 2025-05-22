@@ -211,28 +211,30 @@ public class PartituraView extends View {
             if (x > getWidth() || x < -100) continue;
 
             if (nota.tocando) {
-                // 1️⃣ coordenadas do retângulo
-                float left   = x - raioNota + 9f;
-                float top    = y - raioNota - 5f;
-                float right  = x + raioNota + 100f;
-                float bottom = y + raioNota - 33f;
-                RectF retangulo = new RectF(left, top, right, bottom);
+                xBase = halfWidth + nota.tempoInicio * TIME_TO_PX;
+                deslocamento= tempoAtual * SCROLL_SPEED;
+                chordOffset = (indiceVisual - (totalNoMesmoTempo-1)/2f) * espacamentoEntreNotas;
+                x           = xBase - deslocamento + chordOffset;
 
-                // 2️⃣ cálculo do progresso (0 → início da nota, 1 → fim da nota)
-                float elapsed = (System.currentTimeMillis() - tempoInicial) - nota.tempoInicio;
-                float ratio   = Math.min(Math.max(elapsed / (float)nota.duracao, 0f), 1f);
+                float x0 = x - raioNota + 9f;
+                float x1 = x + raioNota + 100f;
 
-                // 3️⃣ retângulo de preenchimento parcial
-                RectF fillRect = new RectF(
-                        left,
-                        top,
-                        left + (right - left) * ratio,
-                        bottom
-                );
-                canvas.drawRoundRect(fillRect, 35, 35, paintFundoVerde);
+                // 3️⃣ padding vertical e radius
+                float y0 = y - alturaNota/2 - 20f;
+                float y1 = y + alturaNota/2 + 20f;
+                float corner = (y1 - y0)/2f;
 
-                // 4️⃣ contorno completo
-                canvas.drawRoundRect(retangulo, 35, 35, paintBordaVerde);
+                 // 4️⃣ desenho do fill crescendo pelo scroll
+                xIndicador = halfWidth;
+                float fillRight  = Math.min(x1, Math.max(x0, xIndicador));
+                if (fillRight > x0) {
+                    RectF fillPill = new RectF(x0 , y0 + 32, fillRight, y1-70);
+                    canvas.drawRoundRect(fillPill, corner, corner, paintFundoVerde);
+                }
+
+                // 5️⃣ contorno completo
+                RectF pill = new RectF(x0 , y0 +30 , x1, y1 - 70);
+                canvas.drawRoundRect(pill, corner, corner, paintBordaVerde);
             }
 
 
