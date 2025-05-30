@@ -26,10 +26,10 @@ public class PartituraView extends View {
     private static final float alturaNota = 120f;
 
     // mapeamento de tempo → espaçamento “fixo” entre notas
-    public static final float TIME_TO_PX = 0.35f;
+    public static final float TIME_TO_PX = 0.45f;
     // velocidade real de deslocamento da partitura (rolagem)
     public static final float SCROLL_SPEED = 0.35f;
-    public float espacamentoEntreNotas = 140f;
+    public float espacamentoEntreNotas = 160f;
 
     public PartituraView(Context context, AttributeSet attrs) {
         super(context, attrs);
