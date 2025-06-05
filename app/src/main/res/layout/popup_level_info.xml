@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/containerPopup"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#1BDDF2"
+    android:elevation="8dp"
+    android:orientation="vertical"
+    android:padding="12dp">
+    <!-- android:background="@drawable/popup_background"-->
+
+
+    <!-- Mostra o nome da partitura (ou título da música) -->
+
+    <!-- Botão para “carregar/tocar” a música -->
+
+    <TextView
+        android:id="@+id/tvPopupMusicName"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingBottom="8dp"
+        android:text="Nome da Música"
+        android:textColor="@android:color/black"
+        android:textSize="12sp" />
+
+    <Button
+        android:id="@+id/btnPopupPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoText="false"
+        android:backgroundTint="#2E54AD"
+        android:text="Carregar Música"
+        android:textColor="@android:color/white"
+        android:textSize="8sp" />
+    <!--android:backgroundTint="@color/colorAccent" -->
+</LinearLayout>

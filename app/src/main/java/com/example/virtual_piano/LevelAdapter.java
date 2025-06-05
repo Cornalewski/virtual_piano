@@ -41,7 +41,7 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelVH> {
                 (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
 
         // 1) Espaçamento ENTRE iténs, na direção de rolagem (agora HORIZONTAL):
-        int spacingDp = 20;
+        int spacingDp = 80;
         int spacingPx = (int) dpToPx(spacingDp, metrics);
         params.leftMargin = spacingPx;
         if (position == listaDeNiveis.size() - 1) {
@@ -51,7 +51,7 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelVH> {
         }
 
         // 2) Zig-zag VERTICAL: item par em cima, ímpar embaixo (ou vice-versa).
-        int zigzagDp = 180;
+        int zigzagDp = 220;
         int zigzagPx = (int) dpToPx(zigzagDp, metrics);
 
         // Zera margens verticais antes de definir:
@@ -60,15 +60,15 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelVH> {
 
         if (position % 2 == 0) {
             // posição par → empurra para CIMA (diminuindo espaço em cima → maior space embaixo)
-            params.topMargin = 250;
+            params.topMargin = 300;
             params.bottomMargin = zigzagPx;
         } else {
             // posição ímpar → empurra para BAIXO
             params.topMargin = zigzagPx;
             params.bottomMargin = 0;
         }
-
         holder.itemView.setLayoutParams(params);
+
     }
 
 
@@ -99,11 +99,10 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelVH> {
             itemView.setOnClickListener(v -> {
                 int idx = getAdapterPosition();
                 if (idx != RecyclerView.NO_POSITION && listener != null) {
-                    listener.onLevelClicked(listaDeNiveis.get(idx));
+                    listener.onLevelClicked(v, listaDeNiveis.get(idx));
                 }
             });
         }
-
         public void bind(Level lvl) {
             // 1) Número
             tvNumber.setText(String.valueOf(lvl.numero));
@@ -130,7 +129,9 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelVH> {
             }
         }
     }
-        public interface OnLevelClickListener {
-            void onLevelClicked(Level level);
-        }
+    public interface OnLevelClickListener {
+        // Agora envia o View que foi clicado (para sabermos onde posicionar o popup)
+        void onLevelClicked(View clickedView, Level level);
+    }
+
 }

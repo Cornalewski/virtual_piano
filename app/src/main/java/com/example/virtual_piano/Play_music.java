@@ -34,11 +34,11 @@ public class Play_music extends AppCompatActivity {
     private final Map<Integer, Integer> soundIdMap = new HashMap<>();  // rawResId -> soundPool soundId
     private final Map<Integer, Integer> streamIdMap = new HashMap<>(); // rawResId -> current streamId
     private int totalToLoad;
-    private AtomicInteger loadedCount = new AtomicInteger(0);
-    Intent it;
+    private final AtomicInteger loadedCount = new AtomicInteger(0);
+    private boolean samplesCarregados = false;
     private final Handler handler = new Handler();
     private static final int DELAY_MS = 1400;
-    private int Tempo_musica;
+
     private PartituraView partituraView;
     private boolean partituraJaIniciada = false;
     private List<Nota> notas = new ArrayList<>();
@@ -49,12 +49,14 @@ public class Play_music extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.teclas_c4_e5);
 
+        // Carrega notas e configura PartituraView (inicial parado)
         Intent it = getIntent();
         String path = it.getStringExtra("Partitura");
         notas = carregarNotasDeAssets(this, path);
         partituraView = findViewById(R.id.partituraView);
         partituraView.setNotas(notas);
 
+        // Identifica notas invisíveis para carregar antes da reprodução automática
         Set<Integer> invisiveisParaLoad = new HashSet<>();
         for (Nota n : notas) {
             if (!n.visivel) {
@@ -64,7 +66,7 @@ public class Play_music extends AppCompatActivity {
         }
         totalToLoad = invisiveisParaLoad.size();
 
-        // Initialize SoundPool
+        // Inicializa SoundPool e registra listener antes de carregar
         AudioAttributes attrs = new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_MEDIA)
                 .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
@@ -76,15 +78,21 @@ public class Play_music extends AppCompatActivity {
 
         soundPool.setOnLoadCompleteListener((sp, sampleId, status) -> {
             if (status == 0 && loadedCount.incrementAndGet() == totalToLoad) {
-                // todas invisíveis carregadas → agenda sons automáticos
-                runOnUiThread(this::agendarTocadoresAutomaticos);
+                samplesCarregados = true;
+                // Se partitura já iniciou, agendar notas invisíveis
+                if (partituraJaIniciada) {
+                    agendarTocadoresAutomaticos();
+                }
             }
         });
+
+        // Carrega notas invisíveis (bloqueante para áudio automático)
         for (int resId : invisiveisParaLoad) {
             int soundId = soundPool.load(this, resId, 1);
             soundIdMap.put(resId, soundId);
         }
-        // Preload visible key sounds
+
+        // Carrega notas visíveis em background (não bloqueante)
         int[] visiveis = {
                 R.raw.c4, R.raw.c4sharp, R.raw.d4, R.raw.d4sharp, R.raw.e4,
                 R.raw.f4, R.raw.f4sharp, R.raw.g4, R.raw.g4sharp,
@@ -96,26 +104,26 @@ public class Play_music extends AppCompatActivity {
             soundIdMap.put(resId, soundId);
         }
 
-        // Configure button touch to play with SoundPool
+        // Configura botões para interação
         configurarBotao(R.id.c4, R.raw.c4);
+        configurarBotao(R.id.c4sharp, R.raw.c4sharp);
         configurarBotao(R.id.d4, R.raw.d4);
+        configurarBotao(R.id.d4sharp, R.raw.d4sharp);
         configurarBotao(R.id.e4, R.raw.e4);
         configurarBotao(R.id.f4, R.raw.f4);
+        configurarBotao(R.id.f4sharp, R.raw.f4sharp);
         configurarBotao(R.id.g4, R.raw.g4);
+        configurarBotao(R.id.g4sharp, R.raw.g4sharp);
         configurarBotao(R.id.a4, R.raw.a4);
+        configurarBotao(R.id.a4sharp, R.raw.a4sharp);
         configurarBotao(R.id.b4, R.raw.b4);
         configurarBotao(R.id.c5, R.raw.c5);
-        configurarBotao(R.id.d5, R.raw.d5);
-        configurarBotao(R.id.e5, R.raw.e5);
-        configurarBotao(R.id.c4sharp, R.raw.c4sharp);
-        configurarBotao(R.id.d4sharp, R.raw.d4sharp);
-        configurarBotao(R.id.f4sharp, R.raw.f4sharp);
-        configurarBotao(R.id.g4sharp, R.raw.g4sharp);
-        configurarBotao(R.id.a4sharp, R.raw.a4sharp);
         configurarBotao(R.id.c5sharp, R.raw.c5sharp);
+        configurarBotao(R.id.d5, R.raw.d5);
         configurarBotao(R.id.d5sharp, R.raw.d5sharp);
+        configurarBotao(R.id.e5, R.raw.e5);
 
-        // Handle window insets
+        // Ajuste de Insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets sys = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(sys.left, sys.top, sys.right, sys.bottom);
@@ -131,17 +139,19 @@ public class Play_music extends AppCompatActivity {
             soundPool = null;
         }
     }
+
     private void agendarTocadoresAutomaticos() {
         for (Nota n : notas) {
             if (!n.visivel) {
                 final int raw = getRawIdPorNome(n.nome);
                 handler.postDelayed(() -> {
-                    tocarSom(raw);
-                    handler.postDelayed(() -> pararSom(raw), DELAY_MS);
+                    Sound_Manager.getInstance().play(raw);
+                    handler.postDelayed(() -> Sound_Manager.getInstance().stop(raw), DELAY_MS);
                 }, n.tempoInicio);
             }
         }
     }
+
     public List<Nota> carregarNotasDeAssets(Context context, String nomeArquivo) {
         long tempoAtual = 0;
         int duracaoPadrao = 800;
@@ -169,7 +179,6 @@ public class Play_music extends AppCompatActivity {
                         nota.colcheia = (duracao == duracaoCurta);
                         lista.add(nota);
                         tempoAtual += ligada ? 0 : duracao;
-                        Tempo_musica += tempoAtual;
                     }
                 }
             }
@@ -191,26 +200,37 @@ public class Play_music extends AppCompatActivity {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     if (!partituraJaIniciada) {
-                        // 1º toque: inicia animação
                         partituraView.iniciarPartitura();
                         partituraJaIniciada = true;
-                        // se invisíveis já carregadas, agenda reprodução
-                        if (loadedCount.get() == totalToLoad) {
+                        // Só agenda as notas invisíveis se o preload já tiver sido concluído
+                        if (Sound_Manager.getInstance().areUrgentesReady()) {
                             agendarTocadoresAutomaticos();
+                        } else {
+                            // Se ainda não estiver pronto, podemos checar de tempos em tempos:
+                            handler.postDelayed(this::verificarParaAgendar, 100);
                         }
                     }
-                    tocarSom(somId);
+                    // Toca o som da tecla visível
+                    Sound_Manager.getInstance().play(somId);
                     ativarNotaTocada(getNomeNotaPorId(somId));
                     v.performClick();
                     break;
+
                 case MotionEvent.ACTION_UP:
-                    handler.postDelayed(() -> pararSom(somId), DELAY_MS);
+                    handler.postDelayed(() -> Sound_Manager.getInstance().stop(somId), DELAY_MS);
                     break;
             }
             return true;
         });
     }
-
+    private void verificarParaAgendar() {
+        if (Sound_Manager.getInstance().areUrgentesReady() && partituraJaIniciada) {
+            agendarTocadoresAutomaticos();
+        } else if (partituraJaIniciada) {
+            // Recheca daqui a 100ms até estar pronto
+            handler.postDelayed(this::verificarParaAgendar, 100);
+        }
+    }
     private void tocarSom(int resId) {
         handler.removeCallbacksAndMessages(resId);
         Integer soundId = soundIdMap.get(resId);
@@ -226,10 +246,6 @@ public class Play_music extends AppCompatActivity {
             soundPool.stop(stream);
             streamIdMap.remove(resId);
         }
-    }
-
-    private void agendarParada(int somId) {
-        handler.postDelayed(() -> pararSom(somId), DELAY_MS);
     }
 
     private void ativarNotaTocada(String notaTocada) {
@@ -407,25 +423,4 @@ public class Play_music extends AppCompatActivity {
                 return 0;
         }
     }
-
-    private void iniciarPartitura() {
-        String path = getIntent().getStringExtra("Partitura");
-        notas = carregarNotasDeAssets(this, path);
-        partituraView.setNotas(notas);
-        partituraView.iniciarPartitura();
-
-        // usa o handler de instância e seus métodos tocarSom/pararSom
-        for (Nota nota : notas) {
-            if(!nota.visivel) {
-                final int rawResId = getRawIdPorNome(nota.nome);
-                handler.postDelayed(() -> {
-                    // este tocarSom já coloca o streamId no mapa
-                    tocarSom(rawResId);
-                    // e aqui ele para corretamente
-                    handler.postDelayed(() -> pararSom(rawResId), DELAY_MS);
-                }, nota.tempoInicio);
-            }
-        }
-    }
-
 }
