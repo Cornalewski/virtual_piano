@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.media.SoundPool;
@@ -152,7 +150,7 @@ public class Play_music extends AppCompatActivity {
         Pattern padraoNota = Pattern.compile("([A-Ga-g]#?[0-9])");
         List<Nota> lista = new ArrayList<>();
 
-        try (InputStream is = context.getAssets().open(nomeArquivo);
+        try (InputStream is = context.getAssets().open("levels/"+nomeArquivo);
              BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
             String linha;
             while ((linha = br.readLine()) != null) {
