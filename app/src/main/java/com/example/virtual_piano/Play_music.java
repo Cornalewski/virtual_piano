@@ -42,6 +42,7 @@ public class Play_music extends AppCompatActivity {
     private PartituraView partituraView;
     private boolean partituraJaIniciada = false;
     private List<Nota> notas = new ArrayList<>();
+    private long duraçao_musica = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +124,16 @@ public class Play_music extends AppCompatActivity {
         configurarBotao(R.id.d5sharp, R.raw.d5sharp);
         configurarBotao(R.id.e5, R.raw.e5);
 
+        long delayTotal = duraçao_musica + DELAY_MS;
+
+        handler.postDelayed(() -> {
+            // inicia a Activity de seleção de níveis
+            Intent intent = new Intent(Play_music.this, Level_selection.class);
+            startActivity(intent);
+            // opcional: fecha a tela de playback para removê-la da pilha
+            finish();
+        }, delayTotal + 700);
+
         // Ajuste de Insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets sys = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -179,6 +190,10 @@ public class Play_music extends AppCompatActivity {
                         nota.colcheia = (duracao == duracaoCurta);
                         lista.add(nota);
                         tempoAtual += ligada ? 0 : duracao;
+                        long fim = nota.tempoInicio + nota.duracao;
+                        if (fim > duraçao_musica) {
+                            duraçao_musica = fim;
+                        }
                     }
                 }
             }

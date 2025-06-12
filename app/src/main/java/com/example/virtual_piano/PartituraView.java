@@ -24,7 +24,7 @@ public class PartituraView extends View {
     private Long tempoInicial = null;
 
     // Paints únicos, criados em init()
-    private Paint paintNota, paintContorno, paintFeixe, paintHaste,
+    private Paint paintNota, paintContorno, paintFeixe, paintHaste,paintTexto,
             paintSustenido, paintDestaque;
     // Raio (meio eixo) para desenhar o oval da cabeça da nota
     private static final float raioNota = 42f;
@@ -67,6 +67,11 @@ public class PartituraView extends View {
         paintSustenido.setColor(Color.BLACK);
         paintSustenido.setTextSize(32f);
         paintSustenido.setFakeBoldText(true);
+
+        paintTexto = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paintTexto.setColor(Color.BLACK);
+        paintTexto.setTextSize(32f);
+        paintTexto.setFakeBoldText(true);
 
         // Destaque (rosa transparente) para nota acertada
         paintDestaque = new Paint();
@@ -267,6 +272,67 @@ public class PartituraView extends View {
             );
             canvas.drawOval(corpo, paintNota);
             canvas.drawOval(corpo, paintContorno);
+
+            // 7.x) Desenha o nome da nota ao lado
+            String Texto = "";
+            switch (nota.nome) {
+                case "C4":
+                    Texto = "dó";
+                    break;
+                case "C4sharp":
+                    Texto = "dó#";
+                    break;
+                case "D4":
+                    Texto = "Ré";
+                    break;
+                case "D4sharp":
+                    Texto = "Ré#";
+                    break;
+                case "E4":
+                    Texto = "Mi";
+                    break;
+                case "F4":
+                    Texto = "Fá";
+                    break;
+                case "F4sharp":
+                    Texto = "Fá#";
+                    break;
+                case "G4":
+                    Texto = "Sol";
+                    break;
+                case "G4sharp":
+                    Texto = "Sol#";
+                    break;
+                case "A4":
+                    Texto = "La";
+                    break;
+                case "A4sharp":
+                    Texto = "La#";
+                    break;
+                case "B4":
+                    Texto = "Si";
+                    break;
+                case "C5":
+                    Texto = "Dó ↑";
+                    break;
+
+                case "C5sharp":
+                    Texto = "dó# ↑";
+                    break;
+                case "D5":
+                    Texto = "Ré ↑";
+                    break;
+                case "D5sharp":
+                    Texto = "Ré# ↑";
+                    break;
+                case "E5":
+                    Texto = "Mi ↑";
+                    break;
+            }
+            float xTexto = x + raioNota + 16;       // posicione um pouco à direita da cabeça
+            float yTexto = y + (paintTexto.getTextSize() / 2) + 23; // centraliza verticalmente
+            canvas.drawText(Texto, xTexto, yTexto, paintTexto);
+
 
             // 7.4) Desenha a haste vertical para **todas** as notas
             canvas.drawRect(
