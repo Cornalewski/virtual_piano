@@ -258,10 +258,6 @@ public class PartituraView extends View {
                 canvas.drawRoundRect(pill, corner, corner, borda);
             }
 
-            // 7.2) Desenha sustenido “♯” se o nome conter “#”
-            if (nota.nome.contains("#")) {
-                canvas.drawText("♯", x - 35, y + 10, paintSustenido);
-            }
 
             // 7.3) Desenha o corpo oval da nota
             RectF corpo = new RectF(
@@ -274,18 +270,18 @@ public class PartituraView extends View {
             canvas.drawOval(corpo, paintContorno);
 
             // 7.x) Desenha o nome da nota ao lado
-            String Texto = "";
+            String Texto = " ";
             switch (nota.nome) {
                 case "C4":
                     Texto = "dó";
                     break;
-                case "C4sharp":
+                case "C#4":
                     Texto = "dó#";
                     break;
                 case "D4":
                     Texto = "Ré";
                     break;
-                case "D4sharp":
+                case "D#4":
                     Texto = "Ré#";
                     break;
                 case "E4":
@@ -294,19 +290,19 @@ public class PartituraView extends View {
                 case "F4":
                     Texto = "Fá";
                     break;
-                case "F4sharp":
+                case "F#4":
                     Texto = "Fá#";
                     break;
                 case "G4":
                     Texto = "Sol";
                     break;
-                case "G4sharp":
+                case "G#4":
                     Texto = "Sol#";
                     break;
                 case "A4":
                     Texto = "La";
                     break;
-                case "A4sharp":
+                case "A#4":
                     Texto = "La#";
                     break;
                 case "B4":
@@ -315,14 +311,13 @@ public class PartituraView extends View {
                 case "C5":
                     Texto = "Dó ↑";
                     break;
-
-                case "C5sharp":
+                case "C#5":
                     Texto = "dó# ↑";
                     break;
                 case "D5":
                     Texto = "Ré ↑";
                     break;
-                case "D5sharp":
+                case "D#5":
                     Texto = "Ré# ↑";
                     break;
                 case "E5":

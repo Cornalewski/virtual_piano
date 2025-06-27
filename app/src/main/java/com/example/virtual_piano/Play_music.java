@@ -1,13 +1,10 @@
 package com.example.virtual_piano;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
-import android.media.SoundPool;
-import android.media.AudioAttributes;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -19,26 +16,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Play_music extends AppCompatActivity {
 
-    private SoundPool soundPool;
-    private final Map<Integer, Integer> soundIdMap = new HashMap<>();  // rawResId -> soundPool soundId
-    private final Map<Integer, Integer> streamIdMap = new HashMap<>(); // rawResId -> current streamId
-    private int totalToLoad;
-    private final AtomicInteger loadedCount = new AtomicInteger(0);
-    private boolean samplesCarregados = false;
     private final Handler handler = new Handler();
     private static final int DELAY_MS = 1400;
-
     private PartituraView partituraView;
     private boolean partituraJaIniciada = false;
     private List<Nota> notas = new ArrayList<>();
@@ -65,46 +52,6 @@ public class Play_music extends AppCompatActivity {
                 if (raw != 0) invisiveisParaLoad.add(raw);
             }
         }
-        totalToLoad = invisiveisParaLoad.size();
-
-        // Inicializa SoundPool e registra listener antes de carregar
-        AudioAttributes attrs = new AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_MEDIA)
-                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                .build();
-        soundPool = new SoundPool.Builder()
-                .setMaxStreams(10)
-                .setAudioAttributes(attrs)
-                .build();
-
-        soundPool.setOnLoadCompleteListener((sp, sampleId, status) -> {
-            if (status == 0 && loadedCount.incrementAndGet() == totalToLoad) {
-                samplesCarregados = true;
-                // Se partitura já iniciou, agendar notas invisíveis
-                if (partituraJaIniciada) {
-                    agendarTocadoresAutomaticos();
-                }
-            }
-        });
-
-        // Carrega notas invisíveis (bloqueante para áudio automático)
-        for (int resId : invisiveisParaLoad) {
-            int soundId = soundPool.load(this, resId, 1);
-            soundIdMap.put(resId, soundId);
-        }
-
-        // Carrega notas visíveis em background (não bloqueante)
-        int[] visiveis = {
-                R.raw.c4, R.raw.c4sharp, R.raw.d4, R.raw.d4sharp, R.raw.e4,
-                R.raw.f4, R.raw.f4sharp, R.raw.g4, R.raw.g4sharp,
-                R.raw.a4, R.raw.a4sharp, R.raw.b4,
-                R.raw.c5, R.raw.c5sharp, R.raw.d5, R.raw.d5sharp, R.raw.e5
-        };
-        for (int resId : visiveis) {
-            int soundId = soundPool.load(this, resId, 1);
-            soundIdMap.put(resId, soundId);
-        }
-
         // Configura botões para interação
         configurarBotao(R.id.c4, R.raw.c4);
         configurarBotao(R.id.c4sharp, R.raw.c4sharp);
@@ -140,15 +87,6 @@ public class Play_music extends AppCompatActivity {
             v.setPadding(sys.left, sys.top, sys.right, sys.bottom);
             return insets;
         });
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (soundPool != null) {
-            soundPool.release();
-            soundPool = null;
-        }
     }
 
     private void agendarTocadoresAutomaticos() {
@@ -244,22 +182,6 @@ public class Play_music extends AppCompatActivity {
         } else if (partituraJaIniciada) {
             // Recheca daqui a 100ms até estar pronto
             handler.postDelayed(this::verificarParaAgendar, 100);
-        }
-    }
-    private void tocarSom(int resId) {
-        handler.removeCallbacksAndMessages(resId);
-        Integer soundId = soundIdMap.get(resId);
-        if (soundId != null) {
-            int stream = soundPool.play(soundId, 1f, 1f, 1, 0, 1f);
-            streamIdMap.put(resId, stream);
-        }
-    }
-
-    private void pararSom(int resId) {
-        Integer stream = streamIdMap.get(resId);
-        if (stream != null) {
-            soundPool.stop(stream);
-            streamIdMap.remove(resId);
         }
     }
 

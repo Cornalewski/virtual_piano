@@ -48,7 +48,6 @@ public class Level_selection extends AppCompatActivity {
         }
     }
 
-
     @Override
     public AssetManager getAssets() {
         return super.getAssets();
@@ -82,6 +81,7 @@ public class Level_selection extends AppCompatActivity {
                 R.raw.a4,R.raw.a4sharp,R.raw.b4,R.raw.c5,R.raw.c5sharp,
                 R.raw.d5,R.raw.d5sharp, R.raw.e5
         ));
+
         Sound_Manager.getInstance().initialize(this,invisiveis,visiveis);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // 1) Configurar LayoutManager

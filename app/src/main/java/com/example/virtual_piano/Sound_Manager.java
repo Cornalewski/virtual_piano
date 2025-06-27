@@ -2,11 +2,13 @@ package com.example.virtual_piano;
 
 import android.content.Context;
 import android.media.AudioAttributes;
+import android.media.AudioFocusRequest;
+import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -20,6 +22,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Sound_Manager {
 
     private static Sound_Manager instance;
+    private int activeStreamId = 0;
+    Context context;
+    private AudioManager audioManager;
+    private AudioFocusRequest focusRequest;
     private SoundPool soundPool;
     private final Map<Integer, Integer> soundIdMap = new HashMap<>();   // rawResId -> soundPool soundId
     private final Map<Integer, Integer> streamIdMap = new HashMap<>();  // rawResId -> último streamId
@@ -32,7 +38,8 @@ public class Sound_Manager {
     private Set<Integer> urgentes;
     private Set<Integer> secundarias;
 
-    private Sound_Manager() { }
+    private Sound_Manager() {
+    }
 
     public static synchronized Sound_Manager getInstance() {
         if (instance == null) {
@@ -41,21 +48,25 @@ public class Sound_Manager {
         return instance;
     }
 
-    /**
-     * Inicializa o SoundPool e começa a carregar os samples.
-     * Deve ser chamado preferencialmente na Activity de seleção de nível (Level_selection),
-     * antes de entrar em Play_music.
-     *
-     * @param context     Activity ou Application context
-     * @param invisiveis  Conjunto de resourceIds (R.raw.xxx) das notas invisíveis que tocam automaticamente
-     * @param visiveis    Conjunto de resourceIds (R.raw.xxx) das teclas que o usuário pode tocar
-     */
-    public void initialize(Context context, Set<Integer> invisiveis, Set<Integer> visiveis) {
+
+    public void initialize(Context ctx, Set<Integer> invisiveis, Set<Integer> visiveis) {
+        this.context = ctx.getApplicationContext();
+        this.audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         if (soundPool != null) {
             // Já inicializado antes; não recarrega tudo de novo
             return;
         }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            AudioAttributes attrs = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_GAME)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build();
 
+            focusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                    .setAudioAttributes(attrs)
+                    .setOnAudioFocusChangeListener(afChangeListener)
+                    .build();
+        }
         this.urgentes = invisiveis;
         this.secundarias = visiveis;
         this.totalToLoadUrgentes = invisiveis.size();
@@ -66,7 +77,7 @@ public class Sound_Manager {
                 .build();
 
         soundPool = new SoundPool.Builder()
-                .setMaxStreams(10)
+                .setMaxStreams(20)
                 .setAudioAttributes(attrs)
                 .build();
 
@@ -108,13 +119,78 @@ public class Sound_Manager {
         return isUrgentesReady;
     }
 
+    private AudioManager.OnAudioFocusChangeListener afChangeListener =
+            new AudioManager.OnAudioFocusChangeListener() {
+                @Override
+                public void onAudioFocusChange(int focusChange) {
+                    switch (focusChange) {
+                        case AudioManager.AUDIOFOCUS_GAIN:
+                            // Recuperou o foco: volte ao volume normal
+                            soundPool.setVolume(activeStreamId, 1f, 1f);
+                            break;
+                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                            // Perda temporária: pause ou abaixe volume
+                            soundPool.setVolume(activeStreamId, 0.1f, 0.1f);
+                            break;
+                        case AudioManager.AUDIOFOCUS_LOSS:
+                            // Perda longa: pare tudo e solte recursos
+                            soundPool.autoPause();
+                            abandonAudioFocus();
+                            break;
+                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                            // Pode “duck” (reduzir volume)
+                            soundPool.setVolume(activeStreamId, 0.2f, 0.2f);
+                            break;
+                    }
+                }
+            };
+
+    private boolean requestAudioFocus() {
+        audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            AudioAttributes playbackAttributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_GAME)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build();
+            AudioFocusRequest focusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                    .setAudioAttributes(playbackAttributes)
+                    .setOnAudioFocusChangeListener(afChangeListener)
+                    .build();
+            return audioManager.requestAudioFocus(focusRequest)
+                    == AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
+        } else {
+            // Para APIs < 26
+            int result = audioManager.requestAudioFocus(
+                    afChangeListener,
+                    AudioManager.STREAM_MUSIC,
+                    AudioManager.AUDIOFOCUS_GAIN
+            );
+            return result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
+        }
+    }
+
+    private void abandonAudioFocus() {
+        if (audioManager == null) return;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Supondo que você guardou o AudioFocusRequest em um campo chamado focusRequest
+            audioManager.abandonAudioFocusRequest(focusRequest);
+        } else {
+            audioManager.abandonAudioFocus(afChangeListener);
+        }
+    }
+
     /**
      * Toca o som correspondente a resId. Se não estiver carregado ainda, não faz nada.
      *
      * @param rawRes R.raw.xxx do áudio
      */
     public void play(int rawRes) {
-        if (soundPool == null) return;
+        if (!requestAudioFocus()) {
+            // não conseguiu foco; decida se cancela ou segue com volume reduzido
+            return;
+        }
         Integer sid = soundIdMap.get(rawRes);
         if (sid != null) {
             int stream = soundPool.play(sid, 1f, 1f, 1, 0, 1f);
@@ -132,6 +208,7 @@ public class Sound_Manager {
         if (stream != null) {
             soundPool.stop(stream);
             streamIdMap.remove(rawRes);
+            abandonAudioFocus();
         }
     }
 
@@ -146,6 +223,7 @@ public class Sound_Manager {
             streamIdMap.clear();
             isUrgentesReady = false;
             loadedCount.set(0);
+            abandonAudioFocus();
         }
     }
 }
