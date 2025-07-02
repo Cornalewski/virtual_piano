@@ -187,6 +187,8 @@ public class Play_music extends AppCompatActivity {
 
     private void ativarNotaTocada(String notaTocada) {
         if (!partituraJaIniciada || partituraView == null) return;
+        float time_to_px = partituraView.getTIME_TO_PX();
+        float scroll_speed = time_to_px;
         long agora = System.currentTimeMillis();
         long tempoAtual = agora - partituraView.getTempoInicial();
         float halfW = partituraView.getWidth() / 2f;
@@ -198,8 +200,8 @@ public class Play_music extends AppCompatActivity {
             for (Nota n : notas) if (n.visivel && n.tempoInicio == nota.tempoInicio) grupo.add(n);
             int idx = grupo.indexOf(nota);
             int total = grupo.size();
-            float xBase = halfW + nota.tempoInicio * PartituraView.TIME_TO_PX;
-            float deslocamento = tempoAtual * PartituraView.SCROLL_SPEED;
+            float xBase = halfW + nota.tempoInicio * time_to_px;
+            float deslocamento = tempoAtual * scroll_speed;
             float chordOffset = (idx - (total - 1) / 2f) * partituraView.espacamentoEntreNotas;
             float xNota = xBase - deslocamento + chordOffset;
             float xIndicador = halfW;

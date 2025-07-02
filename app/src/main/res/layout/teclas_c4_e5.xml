@@ -46,17 +46,19 @@
         <!-- 5) Tecla preta centralizada sobre C4 -->
 
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/c4"
-            style="@style/KeyButtonWhite"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@+id/bottom"
-            app:layout_constraintEnd_toStartOf="@+id/do_re"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/começo"
-            app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
-            app:layout_constraintVertical_bias="0.0" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/c4"
+        style="@style/KeyButtonWhite"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="bottom|center_horizontal"
+        android:paddingBottom="8dp"
+        android:text="@string/DÓ"
+        android:textColor="#1D1C1C"
+        app:layout_constraintStart_toStartOf="@id/começo"
+        app:layout_constraintEnd_toStartOf="@id/do_re"
+        app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
+        app:layout_constraintBottom_toBottomOf="@id/bottom"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/d4"
@@ -67,7 +69,11 @@
             app:layout_constraintEnd_toStartOf="@+id/re_mi"
             app:layout_constraintStart_toStartOf="@+id/do_re"
             app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            android:gravity="bottom|center_horizontal"
+            android:paddingBottom="8dp"
+            android:text="@string/RÉ"
+            android:textColor="#1D1C1C"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/e4"
@@ -79,7 +85,11 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/re_mi"
             app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            android:gravity="bottom|center_horizontal"
+            android:paddingBottom="8dp"
+            android:text="@string/MI"
+            android:textColor="#1D1C1C"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/f4"
@@ -91,7 +101,11 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/mi_fa"
             app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            android:gravity="bottom|center_horizontal"
+            android:paddingBottom="8dp"
+            android:text="@string/FÁ"
+            android:textColor="#1D1C1C"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/g4"
@@ -103,7 +117,11 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/fa_sol"
             app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            android:gravity="bottom|center_horizontal"
+            android:paddingBottom="8dp"
+            android:text="@string/SOL"
+            android:textColor="#1D1C1C"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/a4"
@@ -115,7 +133,11 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/sol_la"
             app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            android:gravity="bottom|center_horizontal"
+            android:paddingBottom="8dp"
+            android:text="@string/LÁ"
+            android:textColor="#1D1C1C"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/b4"
@@ -127,7 +149,12 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/la_si"
             app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            android:gravity="bottom|center_horizontal"
+            android:paddingBottom="8dp"
+            android:text="@string/SI"
+            android:textColor="#1D1C1C"
+            />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/c5"
             style="@style/KeyButtonWhite"
@@ -138,7 +165,11 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/si_dom"
             app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            android:gravity="bottom|center_horizontal"
+            android:paddingBottom="8dp"
+            android:text="@string/DÓM"
+            android:textColor="#1D1C1C"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/d5"
@@ -150,7 +181,11 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/dom_rem"
             app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            android:gravity="bottom|center_horizontal"
+            android:paddingBottom="8dp"
+            android:text="@string/RéM"
+            android:textColor="#1D1C1C"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/e5"
@@ -162,19 +197,27 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/rem_mim"
             app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            android:gravity="bottom|center_horizontal"
+            android:paddingBottom="8dp"
+            android:text="@string/MIM"
+            android:textColor="#1D1C1C"/>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/c4sharp"
-            style="@style/KeyButtonBlack"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@+id/middle_keys"
-            app:layout_constraintEnd_toStartOf="@+id/end_c4sharp"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/start_c4sharp"
-            app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
-            app:layout_constraintVertical_bias="1.0" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/c4sharp"
+        style="@style/KeyButtonBlack"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="bottom|center_horizontal"
+        android:paddingBottom="8dp"
+        android:text="@string/DÓSHARP"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/middle_keys"
+        app:layout_constraintEnd_toStartOf="@+id/end_c4sharp"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/start_c4sharp"
+        app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
+        app:layout_constraintVertical_bias="1.0" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/d4sharp"
@@ -186,7 +229,11 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/start_d4sharp"
             app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            android:gravity="bottom|center_horizontal"
+            android:paddingBottom="8dp"
+            android:text="@string/RÉSHARP"
+            android:textColor="#FFFFFF"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/f4sharp"
@@ -198,7 +245,11 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/start_f4sharp"
             app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            android:gravity="bottom|center_horizontal"
+            android:paddingBottom="8dp"
+            android:text="@string/fásharp"
+            android:textColor="#FFFFFF"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/g4sharp"
@@ -210,7 +261,11 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/start_g4sharp"
             app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            android:gravity="bottom|center_horizontal"
+            android:paddingBottom="8dp"
+            android:text="@string/SOLSHARP"
+            android:textColor="#FFFFFF"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/a4sharp"
@@ -222,7 +277,11 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/start_a4sharp"
             app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            android:gravity="bottom|center_horizontal"
+            android:paddingBottom="8dp"
+            android:text="@string/LÁSHARP"
+            android:textColor="#FFFFFF"/>
         <com.google.android.material.button.MaterialButton
             android:id="@+id/c5sharp"
             style="@style/KeyButtonBlack"
@@ -233,7 +292,11 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/start_c5sharp"
             app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            android:gravity="bottom|center_horizontal"
+            android:paddingBottom="8dp"
+            android:text="@string/DÓMSHARP"
+            android:textColor="#FFFFFF"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/d5sharp"
@@ -245,7 +308,11 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/start_d5sharp"
             app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            android:gravity="bottom|center_horizontal"
+            android:paddingBottom="8dp"
+            android:text="@string/RémSHARP"
+            android:textColor="#FFFFFF"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/do_re"
