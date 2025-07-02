@@ -166,7 +166,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/c4sharp"
-            style="@style/KeyButtonWhite"
+            style="@style/KeyButtonBlack"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="@+id/middle_keys"
@@ -176,6 +176,76 @@
             app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
             app:layout_constraintVertical_bias="1.0" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/d4sharp"
+            style="@style/KeyButtonBlack"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/middle_keys"
+            app:layout_constraintEnd_toStartOf="@+id/end_d4sharp"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/start_d4sharp"
+            app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/f4sharp"
+            style="@style/KeyButtonBlack"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/middle_keys"
+            app:layout_constraintEnd_toStartOf="@+id/end_f4sharp"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/start_f4sharp"
+            app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/g4sharp"
+            style="@style/KeyButtonBlack"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/middle_keys"
+            app:layout_constraintEnd_toStartOf="@+id/end_g4sharp"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/start_g4sharp"
+            app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/a4sharp"
+            style="@style/KeyButtonBlack"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/middle_keys"
+            app:layout_constraintEnd_toStartOf="@+id/end_a4sharp"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/start_a4sharp"
+            app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
+            app:layout_constraintVertical_bias="1.0" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/c5sharp"
+            style="@style/KeyButtonBlack"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/middle_keys"
+            app:layout_constraintEnd_toStartOf="@+id/end_c5sharp"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/start_c5sharp"
+            app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/d5sharp"
+            style="@style/KeyButtonBlack"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/middle_keys"
+            app:layout_constraintEnd_toStartOf="@+id/end_d5sharp"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/start_d5sharp"
+            app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
+            app:layout_constraintVertical_bias="1.0" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/do_re"
@@ -288,6 +358,90 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.14" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/start_d4sharp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.16142271" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/end_d4sharp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.24" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/start_f4sharp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.36" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/end_f4sharp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.44" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/start_g4sharp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.46" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/end_g4sharp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.54" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/start_a4sharp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.56" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/end_a4sharp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.64" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/start_c5sharp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.76" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/end_c5sharp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.84" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/start_d5sharp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.86456907" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/end_d5sharp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.94" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
