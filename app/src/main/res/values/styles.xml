@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- botão de tecla branca -->
+    <style name="KeyButtonWhite" parent="Widget.MaterialComponents.Button">
+        <!-- nosso selector customizado -->
+        <item name="android:background">@drawable/key_selector</item>
+        <!-- anula o tint vindo do tema -->
+        <item name="backgroundTint">@null</item>
+        <!-- mantém o ripple do Material -->
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <!-- cantos arredondados se quiser reforçar -->
+        <item name="cornerRadius">4dp</item>
+    </style>
+
+    <!-- botão de tecla preta -->
+    <style name="KeyButtonBlack" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@drawable/key_sharp_selector</item>
+        <item name="backgroundTint">@null</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="cornerRadius">10dp</item>
+    </style>
+</resources>

@@ -94,7 +94,6 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelVH> {
             imgBg = itemView.findViewById(R.id.imgLevelBg);
             tvNumber = itemView.findViewById(R.id.tvLevelNumber);
             imgStarsOrCrown = itemView.findViewById(R.id.imgStarsOrCrown);
-            imgFriend = itemView.findViewById(R.id.imgFriendBadge);
 
             itemView.setOnClickListener(v -> {
                 int idx = getAdapterPosition();

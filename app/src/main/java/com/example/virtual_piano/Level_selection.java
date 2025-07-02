@@ -1,5 +1,4 @@
 package com.example.virtual_piano;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -9,22 +8,19 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -110,6 +106,13 @@ public class Level_selection extends AppCompatActivity {
         });
 ;
         rvLevels.setAdapter(adapter);
+        rvLevels.setItemAnimator(new DefaultItemAnimator() {{
+            setAddDuration(300);
+            setRemoveDuration(300);
+            setMoveDuration(400);
+            setChangeDuration(300);
+        }});
+
         // 4) “Linkar” o PathCanvasView para desenhar sobre o RecyclerView
         pathCanvas.bindRecyclerView(rvLevels, adapter);
 

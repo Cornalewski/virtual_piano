@@ -3,10 +3,15 @@ package com.example.virtual_piano;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.Shader;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
+
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,6 +27,8 @@ public class PartituraView extends View {
     private Map<Long, List<Nota>> grupoPorTempo;
     // Marca o início da animação (quando o usuário toca a primeira nota)
     private Long tempoInicial = null;
+    private Paint paintFundo;
+    private Shader shaderFundo;
 
     // Paints únicos, criados em init()
     private Paint paintNota, paintContorno, paintFeixe, paintHaste,paintTexto,
@@ -37,12 +44,23 @@ public class PartituraView extends View {
     // Espaçamento lateral entre notas simultâneas (acordes)
     public float espacamentoEntreNotas = 140f;
 
+
     public PartituraView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
     private void init() {
+
+        paintFundo = new Paint();
+        shaderFundo = new LinearGradient(
+                0, 0, 0, getHeight(),
+                Color.parseColor("#FFFFFF"),    // topo
+                Color.parseColor("#F0F0F0"),    // base
+                Shader.TileMode.CLAMP
+        );
+        paintFundo.setShader(shaderFundo);
+
         // Paint para o corpo (oval) da nota
         paintNota = new Paint();
         paintNota.setColor(Color.WHITE);
@@ -139,7 +157,7 @@ public class PartituraView extends View {
         float buffer = raioNota * 2;
 
         // 2) Desenha fundo e pentagrama
-        canvas.drawColor(Color.parseColor("#FDFDFD"));
+        canvas.drawRect(0, 0, getWidth(), getHeight(), paintFundo);
         Paint pentagramaPaint = new Paint();
         pentagramaPaint.setColor(Color.parseColor("#CCCCCC"));
         pentagramaPaint.setStrokeWidth(2);
@@ -256,6 +274,7 @@ public class PartituraView extends View {
                 borda.setStyle(Paint.Style.STROKE);
                 borda.setStrokeWidth(4);
                 canvas.drawRoundRect(pill, corner, corner, borda);
+
             }
 
 

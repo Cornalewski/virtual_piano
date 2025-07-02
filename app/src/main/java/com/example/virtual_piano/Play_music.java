@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 public class Play_music extends AppCompatActivity {
 
     private final Handler handler = new Handler();
-    private static final int DELAY_MS = 1400;
+    private static final int DELAY_MS = 1000;
     private PartituraView partituraView;
     private boolean partituraJaIniciada = false;
     private List<Nota> notas = new ArrayList<>();
@@ -79,7 +79,7 @@ public class Play_music extends AppCompatActivity {
             startActivity(intent);
             // opcional: fecha a tela de playback para removê-la da pilha
             finish();
-        }, delayTotal + 700);
+        }, delayTotal + 1500);
 
         // Ajuste de Insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

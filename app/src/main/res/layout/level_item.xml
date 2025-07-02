@@ -1,43 +1,43 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/containerLevelItem"
-    android:layout_width="72dp"
-    android:layout_height="72dp"
-    android:layout_margin="8dp">
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp"
+    app:cardUseCompatPadding="true"
+    android:foreground="?attr/selectableItemBackground">
 
-    <!-- 1) Fundo circular -->
-    <ImageView
-        android:id="@+id/imgLevelBg"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/circle_background_available"
-        android:scaleType="centerCrop" />
+    <FrameLayout
+        android:layout_width="120dp"
+        android:layout_height="160dp"
+        android:padding="12dp"
+        android:background="@color/cinza_claro">
 
-    <!-- 2) Número do nível -->
-    <TextView
-        android:id="@+id/tvLevelNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1"
-        android:textSize="18sp"
-        android:textColor="@android:color/white"
-        android:layout_gravity="center" />
+        <ImageView
+            android:id="@+id/imgLevelBg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            />
 
-    <!-- 3) Ícones de estrelas ou coroa (inicialmente invisível) -->
-    <ImageView
-        android:id="@+id/imgStarsOrCrown"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_gravity="bottom|end"
-        android:visibility="gone"
-        android:src="@drawable/ic_star_filled" />
+        <TextView
+            android:id="@+id/tvLevelNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/branco"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_gravity="center" />
 
-    <!-- 4) Opcional: ícone de amigo -->
-    <ImageView
-        android:id="@+id/imgFriendBadge"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_gravity="top|end"
-        android:visibility="gone"
-        android:src="@drawable/ic_launcher_background" />
+        <ImageView
+            android:id="@+id/imgStarsOrCrown"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="top|end"
+            android:padding="4dp"
+            android:visibility="gone" />
+    </FrameLayout>
 
-</FrameLayout>
+</com.google.android.material.card.MaterialCardView>
+

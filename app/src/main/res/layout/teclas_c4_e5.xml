@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -10,268 +11,283 @@
     tools:ignore="MissingDefaultResource">
 
 
-    <Button
-        android:id="@+id/d5sharp"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="48dp"
-        android:layout_height="82dp"
-        android:layout_marginStart="-20dp"
-        android:layout_marginBottom="55dp"
-        android:background="#020101"
-        android:backgroundTint="#000000"
-        android:elevation="10dp"
-        android:text="@string/RÉSHARP"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/d5" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_sheet_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.54" />
 
-    <Button
-        android:id="@+id/c5sharp"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="48dp"
-        android:layout_height="82dp"
-        android:layout_marginStart="-20dp"
-        android:layout_marginBottom="55dp"
-        android:background="#020101"
-        android:backgroundTint="#000000"
-        android:elevation="10dp"
-        android:text="@string/DÓSHARP"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/c5" />
+        <!-- 2) PartituraView preenchendo de topo até a guideline -->
 
-    <Button
-        android:id="@+id/a4sharp"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="48dp"
-        android:layout_height="82dp"
-        android:layout_marginStart="-20dp"
-        android:layout_marginBottom="55dp"
-        android:background="#020101"
-        android:backgroundTint="#000000"
-        android:elevation="10dp"
-        android:text="@string/LÁSHARP"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/a4" />
+        <!-- 3) Guideline para início da área das teclas -->
+        <com.example.virtual_piano.PartituraView
+            android:id="@+id/partituraView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:backgroundTint="#2CC0FF"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_sheet_bottom"
+            app:layout_constraintEnd_toEndOf="@id/fim"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@id/começo"
+            app:layout_constraintTop_toTopOf="@id/top"
+            app:layout_constraintVertical_bias="0.0" />
 
-    <Button
-        android:id="@+id/g4sharp"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="48dp"
-        android:layout_height="82dp"
-        android:layout_marginStart="-20dp"
-        android:layout_marginBottom="55dp"
-        android:background="#020101"
-        android:backgroundTint="#000000"
-        android:elevation="10dp"
-        android:text="@string/SOLSHARP"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/g4" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_keys_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.6" />
 
-    <Button
-        android:id="@+id/f4sharp"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="48dp"
-        android:layout_height="82dp"
-        android:layout_marginStart="-20dp"
-        android:layout_marginBottom="55dp"
-        android:background="#020101"
-        android:backgroundTint="#000000"
-        android:elevation="10dp"
-        android:text="@string/fásharp"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/f4" />
+        <!-- 4) Teclas brancas em chain horizontal -->
+        <!-- Exemplo para C4, D4, E4; repita para as demais teclas brancas -->
 
-    <Button
-        android:id="@+id/d4sharp"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="48dp"
-        android:layout_height="82dp"
-        android:layout_marginStart="-20dp"
-        android:layout_marginBottom="55dp"
-        android:background="#020101"
-        android:backgroundTint="#000000"
-        android:elevation="10dp"
-        android:text="@string/RÉSHARP"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/d4"
-        tools:ignore="DuplicateSpeakableTextCheck" />
+        <!-- 5) Tecla preta centralizada sobre C4 -->
 
-    <Button
-        android:id="@+id/e5"
-        style="@style/Widget.Material3.Button"
-        android:layout_width="64dp"
-        android:layout_height="120dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/MIM"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/d5" />
 
-    <Button
-        android:id="@+id/d4"
-        style="@style/Widget.Material3.Button"
-        android:layout_width="64dp"
-        android:layout_height="120dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/RÉ"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/e4"
-        app:layout_constraintStart_toEndOf="@+id/c4" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/c4"
+            style="@style/KeyButtonWhite"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/bottom"
+            app:layout_constraintEnd_toStartOf="@+id/do_re"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/começo"
+            app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
+            app:layout_constraintVertical_bias="0.0" />
 
-    <Button
-        android:id="@+id/d5"
-        style="@style/Widget.Material3.Button"
-        android:layout_width="64dp"
-        android:layout_height="120dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/RéM"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/e5"
-        app:layout_constraintStart_toEndOf="@+id/c5" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/d4"
+            style="@style/KeyButtonWhite"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/bottom"
+            app:layout_constraintEnd_toStartOf="@+id/re_mi"
+            app:layout_constraintStart_toStartOf="@+id/do_re"
+            app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
+            app:layout_constraintVertical_bias="1.0" />
 
-    <Button
-        android:id="@+id/b4"
-        style="@style/Widget.Material3.Button"
-        android:layout_width="64dp"
-        android:layout_height="120dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/SI"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/c5"
-        app:layout_constraintStart_toEndOf="@+id/a4" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/e4"
+            style="@style/KeyButtonWhite"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/bottom"
+            app:layout_constraintEnd_toStartOf="@+id/mi_fa"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/re_mi"
+            app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
+            app:layout_constraintVertical_bias="1.0" />
 
-    <Button
-        android:id="@+id/a4"
-        style="@style/Widget.Material3.Button"
-        android:layout_width="64dp"
-        android:layout_height="120dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/LÁ"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/b4"
-        app:layout_constraintStart_toEndOf="@+id/g4" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/f4"
+            style="@style/KeyButtonWhite"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/bottom"
+            app:layout_constraintEnd_toStartOf="@+id/fa_sol"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/mi_fa"
+            app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
+            app:layout_constraintVertical_bias="1.0" />
 
-    <Button
-        android:id="@+id/e4"
-        style="@style/Widget.Material3.Button"
-        android:layout_width="64dp"
-        android:layout_height="120dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/MI"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/f4"
-        app:layout_constraintStart_toEndOf="@+id/d4" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/g4"
+            style="@style/KeyButtonWhite"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/bottom"
+            app:layout_constraintEnd_toStartOf="@+id/sol_la"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/fa_sol"
+            app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
+            app:layout_constraintVertical_bias="1.0" />
 
-    <Button
-        android:id="@+id/c5"
-        style="@style/Widget.Material3.Button"
-        android:layout_width="64dp"
-        android:layout_height="120dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/DÓM"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/d5"
-        app:layout_constraintStart_toEndOf="@+id/b4" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/a4"
+            style="@style/KeyButtonWhite"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/bottom"
+            app:layout_constraintEnd_toStartOf="@+id/la_si"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/sol_la"
+            app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
+            app:layout_constraintVertical_bias="1.0" />
 
-    <Button
-        android:id="@+id/g4"
-        style="@style/Widget.Material3.Button"
-        android:layout_width="64dp"
-        android:layout_height="120dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/SOL"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/a4"
-        app:layout_constraintStart_toEndOf="@+id/f4" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/b4"
+            style="@style/KeyButtonWhite"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/bottom"
+            app:layout_constraintEnd_toStartOf="@+id/si_dom"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/la_si"
+            app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
+            app:layout_constraintVertical_bias="1.0" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/c5"
+            style="@style/KeyButtonWhite"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/bottom"
+            app:layout_constraintEnd_toStartOf="@+id/dom_rem"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/si_dom"
+            app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
+            app:layout_constraintVertical_bias="1.0" />
 
-    <Button
-        android:id="@+id/f4"
-        style="@style/Widget.Material3.Button"
-        android:layout_width="64dp"
-        android:layout_height="120dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/FÁ"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/g4"
-        app:layout_constraintStart_toEndOf="@+id/e4" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/d5"
+            style="@style/KeyButtonWhite"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/bottom"
+            app:layout_constraintEnd_toStartOf="@+id/rem_mim"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/dom_rem"
+            app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
+            app:layout_constraintVertical_bias="1.0" />
 
-    <Button
-        android:id="@+id/c4"
-        style="@style/Widget.Material3.Button"
-        android:layout_width="64dp"
-        android:layout_height="120dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/DÓ"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/d4"
-        app:layout_constraintStart_toStartOf="parent" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/e5"
+            style="@style/KeyButtonWhite"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/bottom"
+            app:layout_constraintEnd_toStartOf="@+id/fim"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/rem_mim"
+            app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
+            app:layout_constraintVertical_bias="1.0" />
 
-    <Button
-        android:id="@+id/c4sharp"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="48dp"
-        android:layout_height="82dp"
-        android:layout_marginStart="-20dp"
-        android:layout_marginBottom="55dp"
-        android:background="#020101"
-        android:backgroundTint="#000000"
-        android:elevation="10dp"
-        android:text="@string/DÓSHARP"
-        app:cornerRadius="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/c4"
-        tools:ignore="DuplicateSpeakableTextCheck" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/c4sharp"
+            style="@style/KeyButtonWhite"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/middle_keys"
+            app:layout_constraintEnd_toStartOf="@+id/end_c4sharp"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/start_c4sharp"
+            app:layout_constraintTop_toTopOf="@id/guideline_keys_top"
+            app:layout_constraintVertical_bias="1.0" />
 
-    <com.example.virtual_piano.PartituraView
-        android:id="@+id/partituraView"
-        android:layout_width="682dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="12dp"
-        android:backgroundTint="#2CC0FF"
-        app:layout_constraintBottom_toBottomOf="@+id/surfaceView"
-        app:layout_constraintStart_toStartOf="@+id/surfaceView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
 
-    <SurfaceView
-        android:id="@+id/surfaceView"
-        android:layout_width="708dp"
-        android:layout_height="196dp"
-        android:background="#979797"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.075"
-        tools:visibility="invisible" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/do_re"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.1" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/re_mi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.20109439" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/mi_fa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.3" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/fa_sol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.4" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/sol_la"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/la_si"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.6" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/si_dom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.7" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/dom_rem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.8" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/rem_mim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.9" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/fim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="1.0" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/começo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.0013679891" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="1.0" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.0" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/middle_keys"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.84" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/start_c4sharp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.061559506" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/end_c4sharp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.14" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

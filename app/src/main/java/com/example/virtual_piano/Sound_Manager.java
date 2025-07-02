@@ -208,7 +208,6 @@ public class Sound_Manager {
         if (stream != null) {
             soundPool.stop(stream);
             streamIdMap.remove(rawRes);
-            abandonAudioFocus();
         }
     }
 
