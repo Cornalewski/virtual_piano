@@ -8,5 +8,7 @@
     <color name="branco">#FFFFFF</color>
     <color name="cinza_claro">#F5F5F5</color>
     <color name="gray_700">#616161</color>
+    <color name="selection_background">#F5F5F5</color> <!-- tom de cinza muito claro -->
+
 
 </resources>

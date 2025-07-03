@@ -30,6 +30,7 @@ public class Play_music extends AppCompatActivity {
     private boolean partituraJaIniciada = false;
     private List<Nota> notas = new ArrayList<>();
     private long duraçao_musica = 0;
+    int streamid = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +116,7 @@ public class Play_music extends AppCompatActivity {
             while ((linha = br.readLine()) != null) {
                 String[] partes = linha.trim().split(" ");
                 for (String parte : partes) {
-                    boolean ligada = parte.startsWith("|") && parte.endsWith("|");
+                    boolean ligada = parte.startsWith("[") && parte.endsWith("]");
                     String trecho = parte.replace("|", "");
                     Matcher matcher = padraoNota.matcher(trecho);
                     List<String> notasNoBloco = new ArrayList<>();
@@ -165,12 +166,14 @@ public class Play_music extends AppCompatActivity {
                     }
                     // Toca o som da tecla visível
                     Sound_Manager.getInstance().play(somId);
+                    streamid = Sound_Manager.getInstance().play(somId);
                     ativarNotaTocada(getNomeNotaPorId(somId));
                     v.performClick();
                     break;
 
                 case MotionEvent.ACTION_UP:
                     handler.postDelayed(() -> Sound_Manager.getInstance().stop(somId), DELAY_MS);
+                    handler.postDelayed(() -> Sound_Manager.getInstance().stopStream(streamid),DELAY_MS);
                     break;
             }
             return true;

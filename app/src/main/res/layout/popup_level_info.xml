@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardPopup"
-    android:layout_width="280dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
     app:cardCornerRadius="12dp"
@@ -12,9 +12,9 @@
     android:backgroundTint="@color/white">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <!-- Título da música -->
         <TextView
@@ -23,20 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:paddingBottom="8dp"
             android:text="NOME DA MÚSICA"
-            android:textColor="@color/azul_escuro"
-            android:paddingBottom="8dp"/>
-
-        <!-- Descrição / instruções -->
-        <TextView
-            android:id="@+id/tvPopupDescription"
-            style="@style/TextAppearance.MaterialComponents.Body2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Prepare-se para tocar este nível!"
-            android:textColor="@color/gray_700"
-            android:gravity="center"
-            android:paddingBottom="16dp"/>
+            android:textColor="@color/azul_escuro" />
 
         <!-- Botão principal “Jogar” -->
         <com.google.android.material.button.MaterialButton
@@ -45,17 +34,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="JOGAR"
+            app:cornerRadius="8dp"
             app:iconGravity="textStart"
-            app:iconPadding="8dp"
-            app:cornerRadius="8dp"/>
+            app:iconPadding="8dp" />
 
         <!-- Botão secundário “Cancelar” -->
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPopupCancel"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="CANCELAR"
             android:layout_marginTop="8dp"
-            app:cornerRadius="8dp"/>
+            android:text="CANCELAR"
+            app:cornerRadius="8dp" />
+
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -16,7 +16,9 @@
     <string name="LÁSHARP">LÁ#</string>
     <string name="DÓMSHARP">DÓ# ↑</string>
     <string name="RémSHARP">Ré# ↑</string>
-    <string name="MIM">Mi ↑</string>">
+    <string name="MIM">Mi ↑</string>
+    <string name="jogar">Jogar</string>
+    <string name="Sair"> Sair</string>
 
 
 </resources>

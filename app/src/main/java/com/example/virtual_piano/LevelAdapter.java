@@ -51,7 +51,7 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelVH> {
         }
 
         // 2) Zig-zag VERTICAL: item par em cima, ímpar embaixo (ou vice-versa).
-        int zigzagDp = 220;
+        int zigzagDp = 90;
         int zigzagPx = (int) dpToPx(zigzagDp, metrics);
 
         // Zera margens verticais antes de definir:
@@ -60,7 +60,7 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelVH> {
 
         if (position % 2 == 0) {
             // posição par → empurra para CIMA (diminuindo espaço em cima → maior space embaixo)
-            params.topMargin = 300;
+            params.topMargin = 50;
             params.bottomMargin = zigzagPx;
         } else {
             // posição ímpar → empurra para BAIXO
@@ -91,10 +91,8 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelVH> {
 
         public LevelVH(@NonNull View itemView) {
             super(itemView);
-           imgBg = itemView.findViewById(R.id.imgLevelBg);
+            imgBg = itemView.findViewById(R.id.imgLevelBg);
             tvNumber = itemView.findViewById(R.id.tvLevelNumber);
-           imgStarsOrCrown = itemView.findViewById(R.id.imgStarsOrCrown);
-
             itemView.setOnClickListener(v -> {
                 int idx = getAdapterPosition();
                 if (idx != RecyclerView.NO_POSITION && listener != null) {
@@ -105,27 +103,6 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelVH> {
         public void bind(Level lvl) {
             // 1) Número
             tvNumber.setText(String.valueOf(lvl.numero));
-
-            // 2) Estado “trancado X desbloqueado”
-            if (lvl.estrelas == 3) {
-                imgStarsOrCrown.setVisibility(View.VISIBLE);
-                //substutuir por ic_crown
-                imgStarsOrCrown.setImageResource(R.drawable.ic_star_filled);
-            } else if (lvl.estrelas > 0) {
-                imgStarsOrCrown.setVisibility(View.VISIBLE);
-                switch (lvl.estrelas) {
-                    case 1:
-                        //substutuir por ic_1star
-                        imgStarsOrCrown.setImageResource(R.drawable.ic_star_filled);
-                        break;
-                    case 2:
-                        //substutuir por ic_2star
-                        imgStarsOrCrown.setImageResource(R.drawable.ic_star_filled);
-                        break;
-                }
-            } else {
-                imgStarsOrCrown.setVisibility(View.GONE);
-            }
         }
     }
     public interface OnLevelClickListener {

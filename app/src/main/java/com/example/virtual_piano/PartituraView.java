@@ -205,9 +205,9 @@ public class PartituraView extends View {
 
             // haste vertical
             canvas.drawRect(
-                    x + raioNota * 0.3f,
+                    x + raioNota * 0.88f,
                     y - alturaHaste,
-                    x + raioNota * 0.5f,
+                    x + raioNota * 1.08f,
                     y,
                     paintHaste
             );

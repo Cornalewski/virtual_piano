@@ -37,10 +37,30 @@ public class Level_selection extends AppCompatActivity {
 
     public void Carregar_Niveis(Context context, List<Level> listaDeNiveis) throws IOException {
         AssetManager am = context.getAssets();
-        String[] aLevels = am.list("levels");
-        for (int i = 0; i< Objects.requireNonNull(aLevels).length; i++){
-            Level level = new Level(i+1,aLevels[i],false,0);
-            listaDeNiveis.add(level);
+        // 1) verifica as sub-pastas de dificuldade dentro de "levels"
+        String[] difficulties = am.list("levels");
+        if (difficulties == null) return;
+
+        // opcional: garante ordem crescente das pastas ("1","2","3","4")
+        Arrays.sort(difficulties);
+
+        int counter = 1;
+        for (String difficulty : difficulties) {
+            String folderPath = "levels/" + difficulty;
+            // 2) lista arquivos dentro de cada pasta de dificuldade
+            String[] levelFiles = am.list(folderPath);
+            if (levelFiles == null) continue;
+
+            // opcional: ordena alfabeticamente os arquivos de cada pasta
+            Arrays.sort(levelFiles);
+
+            for (String fileName : levelFiles) {
+                // 3) monta o caminho relativo e cria o objeto Level
+                String fullPath = difficulty + "/" + fileName;
+                Level level = new Level(counter, fullPath, false, 0);
+                listaDeNiveis.add(level);
+                counter++;
+            }
         }
     }
 
@@ -55,30 +75,6 @@ public class Level_selection extends AppCompatActivity {
         setContentView(R.layout.selection_screen);
         RecyclerView rvLevels = findViewById(R.id.rvLevels);
         PathCanvasView pathCanvas = findViewById(R.id.pathCanvas);
-        Set<Integer> invisiveis = new HashSet<>(Arrays.asList(
-               R.raw.a2,R.raw.a2sharp,R.raw.a3,R.raw.a3sharp,
-                R.raw.a5,R.raw.a5sharp,R.raw.a6,R.raw.a6sharp,
-                R.raw.b2,R.raw.b3,
-                R.raw.b5,R.raw.b6,
-                R.raw.c2,R.raw.c2sharp,R.raw.c3,R.raw.c3sharp,
-                R.raw.c5sharp,R.raw.c6,R.raw.c6sharp,
-                R.raw.d2,R.raw.d2sharp,R.raw.d3,R.raw.d3sharp,
-                R.raw.d5sharp,R.raw.d6,R.raw.d6sharp,
-                R.raw.e2,R.raw.e3,
-                R.raw.e6,
-                R.raw.f2,R.raw.f2sharp,R.raw.f3,R.raw.f3sharp,
-                R.raw.f5,R.raw.f5sharp,R.raw.f6,R.raw.f6sharp,
-                R.raw.g2,R.raw.g2sharp,R.raw.g3,R.raw.g3sharp,
-                R.raw.g5,R.raw.g5sharp,R.raw.g6,R.raw.g6sharp
-                ));
-        Set<Integer> visiveis = new HashSet<>(Arrays.asList(
-                R.raw.c4, R.raw.c4sharp, R.raw.d4,R.raw.d4sharp,
-                R.raw.e4,R.raw.f4,R.raw.f4sharp,R.raw.g4,R.raw.g4sharp,
-                R.raw.a4,R.raw.a4sharp,R.raw.b4,R.raw.c5,R.raw.c5sharp,
-                R.raw.d5,R.raw.d5sharp, R.raw.e5
-        ));
-
-        Sound_Manager.getInstance().initialize(this,invisiveis,visiveis);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         // 1) Configurar LayoutManager
         rvLevels.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
@@ -104,7 +100,7 @@ public class Level_selection extends AppCompatActivity {
                 startActivity(it);
             }
         });
-;
+        ;
         rvLevels.setAdapter(adapter);
         rvLevels.setItemAnimator(new DefaultItemAnimator() {{
             setAddDuration(300);
@@ -162,7 +158,7 @@ public class Level_selection extends AppCompatActivity {
         popupWindow.setOutsideTouchable(true);
 
         // 3) Para posicionar *exatamente acima* da view clicada,
-        // precisamos medir o popup e obter as coordenadas da anchor na tela:
+        //medir o popup e obter as coordenadas da anchor na tela:
 
         // Medir o conteúdo do popup para pegar sua largura/altura:
         popupView.measure(
@@ -182,17 +178,18 @@ public class Level_selection extends AppCompatActivity {
 
         // Calcular em que posição X o popup deve aparecer
         // Para centralizar o popup horizontalmente em relação ao botão clicado:
-        int popupX = anchorX + (anchorWidth / 2) - (popupWidth / 2) -80;
+        int popupX = (anchorX + (anchorWidth / 2) - (popupWidth / 2));
         // Para posicionar o popup *acima* do botão com um pequeno gap:
         int gap = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
-        int popupY = anchorY - popupHeight - gap;
+                TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());
 
-        // 4) Exibir o popup na tela
+        int popupY = (anchorY + popupHeight + gap);
+
+        // 4) Exibir o popup na tela)
         popupWindow.showAtLocation(
                 anchorView,           // root
                 Gravity.NO_GRAVITY,   // vamos usar coordenadas exatas
-                popupX,
+                popupX ,
                 popupY
         );
 
@@ -210,5 +207,3 @@ public class Level_selection extends AppCompatActivity {
         // (Opcional) Se quiser animar a entrada do popup,
         // configure alguma Animation antes de chamar showAtLocation.
     }}
-
-

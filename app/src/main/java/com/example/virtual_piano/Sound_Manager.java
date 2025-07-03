@@ -77,7 +77,7 @@ public class Sound_Manager {
                 .build();
 
         soundPool = new SoundPool.Builder()
-                .setMaxStreams(20)
+                .setMaxStreams(50)
                 .setAudioAttributes(attrs)
                 .build();
 
@@ -186,18 +186,14 @@ public class Sound_Manager {
      *
      * @param rawRes R.raw.xxx do áudio
      */
-    public void play(int rawRes) {
-        if (!requestAudioFocus()) {
-            // não conseguiu foco; decida se cancela ou segue com volume reduzido
-            return;
-        }
+    public int play(int rawRes) {
         Integer sid = soundIdMap.get(rawRes);
-        if (sid != null) {
-            int stream = soundPool.play(sid, 1f, 1f, 1, 0, 1f);
-            streamIdMap.put(rawRes, stream);
-        }
+        if (sid == null) return 0;
+        return soundPool.play(sid, 1f, 1f, 1, 0, 1f);
     }
-
+    public void stopStream(int streamId) {
+        soundPool.stop(streamId);
+    }
     /**
      * Para o som, se estiver tocando.
      *

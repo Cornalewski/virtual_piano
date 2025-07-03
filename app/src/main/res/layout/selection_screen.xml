@@ -1,7 +1,8 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_selection_gradient">
 
     <!-- 1) Custom View para desenhar o “caminho” entre níveis -->
     <com.example.virtual_piano.PathCanvasView
@@ -9,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <!-- 2) RecyclerView (ou NestedScrollView + LinearLayout) para os itens -->
+    <!-- 2) RecyclerView para os itens -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvLevels"
         android:layout_width="match_parent"
@@ -19,8 +20,3 @@
         android:paddingRight="32dp"
         android:scrollbars="none"/>
 </FrameLayout>
-
-
-
-
-
