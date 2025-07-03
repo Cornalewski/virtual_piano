@@ -1,43 +1,69 @@
+
 <com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="8dp"
-    app:cardUseCompatPadding="true"
-    android:foreground="?attr/selectableItemBackground">
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:id="@+id/cardLevelItem"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_margin="8dp"
+app:cardCornerRadius="16dp"
+app:cardElevation="6dp"
+app:cardUseCompatPadding="true"
+app:strokeWidth="2dp"
+app:strokeColor="@color/rosa_secundario"
+android:foreground="?attr/selectableItemBackground">
 
-    <FrameLayout
-        android:layout_width="120dp"
-        android:layout_height="160dp"
-        android:padding="12dp"
-        android:background="@color/cinza_claro">
+<FrameLayout
+    android:layout_width="120dp"
+    android:layout_height="160dp">
 
-        <ImageView
-            android:id="@+id/imgLevelBg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            />
+    <!-- 1) Background de capa do nível0 -->
+    <ImageView
+        android:id="@+id/imgLevelBg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+         />
 
-        <TextView
-            android:id="@+id/tvLevelNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/branco"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_gravity="center" />
+    <!-- 2) Overlay de degradê pra dar profundidade -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_overlay_level"/>
 
-        <ImageView
-            android:id="@+id/imgStarsOrCrown"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="top|end"
-            android:padding="4dp"
-            android:visibility="gone" />
-    </FrameLayout>
+    <!-- 3) Número do nível em destaque-->
+    <TextView
+        android:id="@+id/tvLevelNumber"
+        style="@style/TextAppearance.MaterialComponents.Headline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:shadowColor="#80000000"
+        android:shadowDx="0"
+        android:shadowDy="2"
+        android:shadowRadius="4"/>
 
+    <!-- 4) Badge de estrelas ou coroa -->
+    <ImageView
+        android:id="@+id/imgStarsOrCrown"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="top|end"
+        android:layout_margin="8dp"
+        android:visibility="gone"/>
+
+    <!-- 5) Badge de amigo (opcional) -->
+    <ImageView
+        android:id="@+id/imgFriendBadge"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="8dp"
+        android:visibility="gone"/>
+
+</FrameLayout>
 </com.google.android.material.card.MaterialCardView>
+
 

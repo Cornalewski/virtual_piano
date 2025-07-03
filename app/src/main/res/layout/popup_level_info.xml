@@ -1,36 +1,61 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/containerPopup"
-    android:layout_width="wrap_content"
+<!-- res/layout/popup_level_info.xml -->
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardPopup"
+    android:layout_width="280dp"
     android:layout_height="wrap_content"
-    android:background="#1BDDF2"
-    android:elevation="8dp"
-    android:orientation="vertical"
-    android:padding="12dp">
-    <!-- android:background="@drawable/popup_background"-->
+    android:layout_margin="16dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="12dp"
+    android:padding="16dp"
+    android:backgroundTint="@color/white">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <!-- Mostra o nome da partitura (ou título da música) -->
+        <!-- Título da música -->
+        <TextView
+            android:id="@+id/tvPopupMusicName"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="NOME DA MÚSICA"
+            android:textColor="@color/azul_escuro"
+            android:paddingBottom="8dp"/>
 
-    <!-- Botão para “carregar/tocar” a música -->
+        <!-- Descrição / instruções -->
+        <TextView
+            android:id="@+id/tvPopupDescription"
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Prepare-se para tocar este nível!"
+            android:textColor="@color/gray_700"
+            android:gravity="center"
+            android:paddingBottom="16dp"/>
 
-    <TextView
-        android:id="@+id/tvPopupMusicName"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:paddingBottom="8dp"
-        android:text="Nome da Música"
-        android:textColor="@android:color/black"
-        android:textSize="12sp" />
+        <!-- Botão principal “Jogar” -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPopupPlay"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="JOGAR"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            app:cornerRadius="8dp"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnPopupPlay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autoText="false"
-        android:backgroundTint="#2E54AD"
-        android:text="Carregar Música"
-        android:textColor="@android:color/white"
-        android:textSize="8sp" />
-    <!--android:backgroundTint="@color/colorAccent" -->
-</LinearLayout>
+        <!-- Botão secundário “Cancelar” -->
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CANCELAR"
+            android:layout_marginTop="8dp"
+            app:cornerRadius="8dp"/>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -7,4 +7,6 @@
     <color name="rosa_secundario">#EC407A</color>
     <color name="branco">#FFFFFF</color>
     <color name="cinza_claro">#F5F5F5</color>
+    <color name="gray_700">#616161</color>
+
 </resources>
