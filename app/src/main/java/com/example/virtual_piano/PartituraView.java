@@ -32,6 +32,8 @@ public class PartituraView extends View {
     private float alturaHaste;
     public float espacamentoEntreNotas;
     private float spacingLine;
+    private boolean emPausa = false;
+
 
     // Constantes de conversão de tempo
     public float TIME_TO_PX;
@@ -74,6 +76,14 @@ public class PartituraView extends View {
         paintDestaque = new Paint(Paint.ANTI_ALIAS_FLAG);
         paintDestaque.setColor(Color.parseColor("#34C759"));
         paintDestaque.setStyle(Paint.Style.FILL);
+    }
+    public void pausarAnimacao() {
+        emPausa = true;
+    }
+
+    public void retomarAnimacao() {
+        emPausa = false;
+        invalidate(); // força redesenho imediato
     }
 
     @Override
@@ -243,7 +253,7 @@ public class PartituraView extends View {
                 int tot = entry.getValue().size();
                 float chordOff = (idx - (tot - 1) / 2f) * espacamentoEntreNotas;
                 float x = xBase - desloc + chordOff;
-                xs.add(x + raioNota * 0.5f);
+                xs.add(x + raioNota * 0.9f);
 
                 // topo da haste (sem offset extra)
                 float yStemTop = getYParaNota(c.nome) - alturaHaste;
@@ -259,15 +269,18 @@ public class PartituraView extends View {
             // desenha o feixe logo abaixo de topoHaste (para não encostar nas cabeças)
             canvas.drawRect(
                     x0,
-                    topoHaste + spacingLine * 0.05f,
+                    topoHaste + spacingLine * 0.06f,
                     x1,
-                    topoHaste + spacingLine * 0.05f + beamThickness,
+                    topoHaste + spacingLine * 0.06f + beamThickness,
                     paintFeixe
             );
         }
 
         // 7) Animação
-        if (tempoInicial != null) postInvalidateDelayed(16);
+        if (tempoInicial != null && !emPausa) {
+            postInvalidateDelayed(16);
+        }
+
     }
 
     private float getYParaNota(String nota) {

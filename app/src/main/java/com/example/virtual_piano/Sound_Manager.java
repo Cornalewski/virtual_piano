@@ -191,9 +191,11 @@ public class Sound_Manager {
         if (sid == null) return 0;
         return soundPool.play(sid, 1f, 1f, 1, 0, 1f);
     }
+
     public void stopStream(int streamId) {
         soundPool.stop(streamId);
     }
+
     /**
      * Para o som, se estiver tocando.
      *
@@ -219,6 +221,18 @@ public class Sound_Manager {
             isUrgentesReady = false;
             loadedCount.set(0);
             abandonAudioFocus();
+        }
+    }
+
+    public void pauseAll() {
+        if (soundPool != null) {
+            soundPool.autoPause();
+        }
+    }
+
+    public void resumeAll() {
+        if (soundPool != null) {
+            soundPool.autoResume();
         }
     }
 }

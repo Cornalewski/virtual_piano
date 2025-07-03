@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -31,17 +33,21 @@ public class Play_music extends AppCompatActivity {
     private List<Nota> notas = new ArrayList<>();
     private long duraçao_musica = 0;
     int streamid = 0;
-
+    public float tempoInicial;
+    private Runnable finishRunnable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.teclas_c4_e5);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         // Carrega notas e configura PartituraView (inicial parado)
         Intent it = getIntent();
         String path = it.getStringExtra("Partitura");
+        configurarDuracaoTotalEFinish();
         notas = carregarNotasDeAssets(this, path);
+        configurarDuracaoTotalEFinish();
         partituraView = findViewById(R.id.partituraView);
         partituraView.setNotas(notas);
 
@@ -74,14 +80,6 @@ public class Play_music extends AppCompatActivity {
 
         long delayTotal = duraçao_musica + DELAY_MS;
 
-        handler.postDelayed(() -> {
-            // inicia a Activity de seleção de níveis
-            Intent intent = new Intent(Play_music.this, Level_selection.class);
-            startActivity(intent);
-            // opcional: fecha a tela de playback para removê-la da pilha
-            finish();
-        }, delayTotal + 1500);
-
         // Ajuste de Insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets sys = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -91,15 +89,19 @@ public class Play_music extends AppCompatActivity {
     }
 
     private void agendarTocadoresAutomaticos() {
-        for (Nota n : notas) {
-            if (!n.visivel) {
-                final int raw = getRawIdPorNome(n.nome);
-                handler.postDelayed(() -> {
-                    Sound_Manager.getInstance().play(raw);
-                    handler.postDelayed(() -> Sound_Manager.getInstance().stop(raw), DELAY_MS);
-                }, n.tempoInicio);
-            }
-        }
+        // Calcula quantos ms já se passaram desde o início da partitura
+        long tempoAtual = System.currentTimeMillis() - partituraView.getTempoInicial();
+            for (Nota n : notas) {
+                   if (!n.visivel) {
+                       long restante = n.tempoInicio - tempoAtual;
+                       //só agenda se ainda não passou deste ponto
+                       if (restante <= 0) continue;
+                       final int raw = getRawIdPorNome(n.nome);
+                       handler.postDelayed(() -> {
+                           Sound_Manager.getInstance().play(raw);
+                           handler.postDelayed(() -> Sound_Manager.getInstance().stop(raw), DELAY_MS);
+                                }, restante);
+                   }}
     }
 
     public List<Nota> carregarNotasDeAssets(Context context, String nomeArquivo) {
@@ -130,9 +132,6 @@ public class Play_music extends AppCompatActivity {
                         lista.add(nota);
                         tempoAtual += ligada ? 0 : duracao;
                         long fim = nota.tempoInicio + nota.duracao;
-                        if (fim > duraçao_musica) {
-                            duraçao_musica = fim;
-                        }
                     }
                 }
             }
@@ -148,13 +147,30 @@ public class Play_music extends AppCompatActivity {
         return Arrays.asList(visiveis).contains(nota);
     }
 
+    private void configurarDuracaoTotalEFinish() {
+        duraçao_musica = 0;
+        for (Nota n : notas) {
+            long fimNota = n.tempoInicio + n.duracao;
+            if (fimNota > duraçao_musica) {
+                duraçao_musica = fimNota;
+            }
+        }
+
+        finishRunnable = () -> {
+            // libera recursos, se precisar
+            Sound_Manager.getInstance().release();
+            // finaliza esta Activity, voltando à selection screen
+            finish();
+        };
+    }
+
     private void configurarBotao(int botaoId, int somId) {
         View botao = findViewById(botaoId);
         botao.setOnTouchListener((v, event) -> {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     if (!partituraJaIniciada) {
-                        partituraView.iniciarPartitura();
+                       iniciarPartitura();
                         partituraJaIniciada = true;
                         // Só agenda as notas invisíveis se o preload já tiver sido concluído
                         if (Sound_Manager.getInstance().areUrgentesReady()) {
@@ -187,6 +203,16 @@ public class Play_music extends AppCompatActivity {
             handler.postDelayed(this::verificarParaAgendar, 100);
         }
     }
+    private void iniciarPartitura() {
+        partituraView.iniciarPartitura();
+        tempoInicial = System.currentTimeMillis();
+
+        // 1) agenda todas as notas visíveis/invisíveis...
+        agendarTocadoresAutomaticos();
+
+        // 2) agenda o finish
+        handler.postDelayed(finishRunnable, duraçao_musica);
+    }
 
     private void ativarNotaTocada(String notaTocada) {
         if (!partituraJaIniciada || partituraView == null) return;
@@ -214,6 +240,25 @@ public class Play_music extends AppCompatActivity {
                 break;
             }
         }
+    }
+    protected void onPause() {
+        super.onPause();
+        Sound_Manager.getInstance().pauseAll();
+        handler.removeCallbacksAndMessages(null);
+        partituraView.pausarAnimacao();
+    }
+    protected void onResume() {
+        super.onResume();
+        Sound_Manager.getInstance().resumeAll();
+        partituraView.retomarAnimacao();
+            // Se já tinha começado, re-agenda as notas invisíveis que faltam
+                    if (partituraJaIniciada) {
+                    if (Sound_Manager.getInstance().areUrgentesReady()) {
+                            agendarTocadoresAutomaticos();
+                        } else {
+                            handler.postDelayed(this::verificarParaAgendar, 100);
+                        }
+                }
     }
 
     private String getNomeNotaPorId(int somId) {
